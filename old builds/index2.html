@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="images/logo.png"> 
+    <title>Prehistoric VR Museum — Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      /*
+        Mesozoic palette (earthy + fern):
+        - Parchment: #F6F1E7
+        - Clay:      #C2A27A
+        - Basalt:    #1E1E1C
+        - Fern:      #2F5D50
+        - Moss:      #587B5B
+        - Ember:     #8B4A2B
+        - Bone:      #FCFAF5
+      */
+      :root{
+        --bg:#F6F1E7;            /* parchment */
+        --bg-2:#F1E9DC;          /* deeper parchment */
+        --card:#FCFAF5;          /* bone */
+        --ink:#1E1E1C;           /* basalt */
+        --muted:#5F655E;         /* stone-gray */
+        --ring:#E2D8C8;          /* light sandstone */
+        --ring-2:#D6C7AF;        
+        --brand:#8B4A2B;         /* ember/clay */
+        --brand-ink:#fff;
+        --accent:#2F5D50;        /* fern */
+        --accent-2:#587B5B;      /* moss */
+        --max:1100px; 
+        --r:16px; 
+        --shadow:0 10px 28px rgba(30,30,28,.10);
+      }
+
+      /* Subtle paper grain using layered gradients (no images needed) */
+      html, body{
+        margin:0;
+        color:var(--ink);
+        background:
+          radial-gradient(1200px 800px at 10% -10%, rgba(47,93,80,.06), transparent 60%),
+          radial-gradient(1000px 600px at 110% 0%, rgba(139,74,43,.05), transparent 55%),
+          linear-gradient(180deg, var(--bg), var(--bg-2));
+        font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+        line-height:1.6
+      }
+
+      *{ box-sizing:border-box }
+      img{ max-width:100%; display:block }
+      a{ text-decoration:none; color:inherit }
+
+      .container{ max-width:var(--max); margin:0 auto; padding:0 18px }
+
+      /* NAV — stone slab with fern highlight */
+      .nav{
+        position:sticky; top:0; z-index:50;
+        background:linear-gradient(180deg, rgba(252,250,245,.8), rgba(252,250,245,.55));
+        backdrop-filter:blur(8px);
+        border-bottom:1px solid var(--ring);
+      }
+      .navInner{ display:flex; align-items:center; justify-content:space-between; padding:10px 0 }
+      .navLinks{ display:flex; gap:8px; flex-wrap:wrap }
+      .navLinks a{
+        padding:.42rem .7rem; border-radius:999px; color:#38413A;
+        border:1px solid transparent;
+      }
+      .navLinks a:hover{ background:rgba(47,93,80,.08); border-color:rgba(47,93,80,.18) }
+
+      .pill{
+        display:inline-flex; align-items:center; gap:.5rem;
+        padding:.4rem .8rem; border-radius:999px; font-weight:600;
+        background:linear-gradient(180deg, #FFF7EC, #F3E6D0);
+        border:1px solid var(--ring);
+        box-shadow:0 2px 0 rgba(139,74,43,.15) inset, 0 6px 16px rgba(0,0,0,.05);
+      }
+      .pill:before{
+        content:""; width:8px; height:8px; border-radius:50%;
+        background:var(--accent); box-shadow:0 0 0 2px rgba(47,93,80,.15);
+      }
+
+      /* HERO — keep original image; tint with warm filter and fossil edge */
+      .hero{ margin:18px 0 }
+      .heroWrap{ position:relative; border-radius:22px; overflow:hidden; border:1px solid var(--ring); box-shadow:var(--shadow) }
+      .heroWrap img{ width:100%; height:360px; object-fit:cover; filter:contrast(1.02) saturate(1.02) }
+      .heroWrap:after{
+        content:""; position:absolute; inset:0; pointer-events:none;
+        background:radial-gradient(100% 70% at 50% 0%, rgba(139,74,43,.25), transparent 55%),
+                   linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.0) 35%);
+        mix-blend-mode:multiply;
+      }
+      .heroCopy{
+        position:absolute; right:18px; bottom:18px; max-width:360px;
+        background:rgba(30,30,28,.55); color:#fff; padding:16px; border-radius:14px; backdrop-filter:blur(2px);
+        border:1px solid rgba(255,255,255,.18)
+      }
+
+      h1{ font-family:Cinzel, serif; font-weight:800; letter-spacing:.01em; font-size:clamp(28px,4.5vw,46px); margin:0 0 6px; line-height:1.1 }
+      h2{ font-family:Cinzel, serif; font-weight:700; letter-spacing:.02em; font-size:clamp(20px,3.1vw,30px); margin:32px 0 12px }
+      h3{ font-weight:700; font-size:18px; margin:16px 0 8px }
+      .lead{ color:#1f2924 }
+      .muted{ color:var(--muted) }
+
+      .section{ padding:38px 0; border-top:1px solid var(--ring); position:relative }
+      .section .fossil{ height:10px; margin:8px 0 18px; background:
+          repeating-linear-gradient(90deg, rgba(139,74,43,.35) 0 16px, rgba(0,0,0,0) 16px 24px);
+          opacity:.35; border-radius:6px; }
+
+      .grid{ display:grid; gap:16px }
+      .grid-3{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)) }
+      .grid-2{ grid-template-columns:repeat(auto-fit,minmax(280px,1fr)) }
+      .grid-4{ grid-template-columns:repeat(auto-fit,minmax(180px,1fr)) }
+
+      .thumb{
+        background:linear-gradient(180deg, #EFE8DA, #E6D7BF);
+        border:1px dashed var(--ring-2); border-radius:14px; aspect-ratio:16/10;
+        display:flex; align-items:center; justify-content:center; color:#8D8A84; font-size:14px;
+        box-shadow:inset 0 6px 18px rgba(0,0,0,.04)
+      }
+
+      .card{
+        background:var(--card); border:1px solid var(--ring); border-radius:var(--r); box-shadow:var(--shadow); padding:16px;
+      }
+
+      .btn{ display:inline-flex; align-items:center; gap:.5rem; background:var(--brand); color:var(--brand-ink); padding:.55rem 1rem; border-radius:999px; font-weight:700; border:0; cursor:pointer; box-shadow:0 2px 0 rgba(0,0,0,.2) inset }
+      .btn:hover{ filter:brightness(1.05) }
+      .btn.ghost{ background:linear-gradient(180deg,#FFF,#F7F2E9); color:#2B2A28; border:1px solid var(--ring) }
+
+      .stack-sm>*+*{ margin-top:.35rem }
+      .stack>*+*{ margin-top:.6rem }
+      .list{ padding-left:1.2rem }
+      .list li{ margin:.25rem 0 }
+      .kicker{ font-size:.85rem; color:#6b7280; letter-spacing:.08em; text-transform:uppercase }
+      .row{ display:flex; gap:12px; flex-wrap:wrap }
+
+      .techRow{ display:flex; gap:26px; align-items:center; flex-wrap:wrap }
+      .techRow img{ height:46px; filter:grayscale(10%) contrast(1.05) }
+
+      /* Team cards */
+      #team .grid.grid-2 { gap: 18px; }
+      .person{ display:flex !important; flex-direction:column; align-items:center; text-align:center; padding:18px 16px; border-radius:14px; box-shadow:0 8px 20px rgba(47,93,80,.12); background:linear-gradient(180deg, #FFFCF6, #F7F0E4); border:1px solid var(--ring) }
+      .person .avatar{ width:96px; height:96px; border-radius:12px; margin:2px 0 10px 0; background:#efece6; border:1px dashed var(--ring-2); object-fit:cover }
+      .person .btn{ padding:.45rem .95rem; font-size:.95rem; border-radius:999px; box-shadow:none }
+      .person .btn.ghost{ background:#fff; border:1px solid var(--ring); color:#111 }
+
+      .footer{ padding:26px 0; border-top:1px solid var(--ring); color:#6b7280; font-size:.9rem }
+      .anchor{ scroll-margin-top:80px }
+
+      /* Undo any previous temporary global centering overrides */
+      .container h2, .container h3, .container p, ul.list { text-align:left }
+      .grid { justify-content:start }
+
+      /* Decorative callouts */
+      .callout{
+        border-left:6px solid var(--accent); padding:12px 14px; background:linear-gradient(180deg, rgba(47,93,80,.06), rgba(47,93,80,.03)); border-radius:10px; 
+      }
+
+      /* Dark jungle mode (auto if user prefers dark) */
+      @media (prefers-color-scheme: dark){
+        :root{ --bg:#131613; --bg-2:#0E120F; --card:#171A17; --ink:#F4F3EC; --muted:#B5BBAF; --ring:#263126; --ring-2:#354535; --brand:#A76745; --accent:#7DBA9F; --accent-2:#5A8E7B }
+        .nav{ background:linear-gradient(180deg, rgba(23,26,23,.8), rgba(23,26,23,.55)) }
+        .pill{ background:linear-gradient(180deg, #232A25, #1A201B); color:#EDEBE4 }
+        .heroWrap:after{ background:radial-gradient(100% 70% at 50% 0%, rgba(139,74,43,.35), transparent 55%), linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.0) 35%) }
+        .thumb{ background:linear-gradient(180deg, #222822, #1A1F1B); color:#9FA79F; border-color:#2C3A2E }
+        .person{ background:linear-gradient(180deg, #1C211D, #151A16) }
+        .btn.ghost{ background:linear-gradient(180deg,#1E241F,#171C18); color:#EAE7DF }
+      }
+
+      /* Small "fossil" header underlines */
+      h2 + .fossil, h3 + .fossil { opacity:.45 }
+
+      /* Tiny quality-of-life */
+      .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#F1E9DC; border:1px solid var(--ring); border-radius:6px; padding:.1rem .35rem }
+
+      /* ===== Centering fix for the ABOUT/DESCRIPTION section only ===== */
+      #about h2,
+      #about p { text-align: center; }
+
+      #about .fossil {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 150px;
+      }
+
+      #about .grid-3 {
+        justify-items: center;   /* centers each grid item */
+        gap: 20px;
+        max-width: 1000px;       /* keeps the row from stretching too wide */
+        margin: 24px auto 0;     /* centers the whole grid block */
+      }
+
+      /* keep thumbs tidy so they align nicely */
+      #about .thumb {
+        width: 100%;
+        max-width: 320px;
+      }
+      /* ================================================================ */
+	  
+	  /* Center the entire ABOUT section */
+	/* Center ONLY the ABOUT section (to match index.html behavior) */
+	#about { 
+	  text-align: center;                 /* headings/paragraphs center */
+	}
+
+	#about h2,
+	#about p {
+	  text-align: center;                 /* ensure text is centered */
+	  margin-left: auto; 
+	  margin-right: auto;
+	}
+
+	#about p {
+	  max-width: 900px;                   /* readable width like the demo */
+	}
+
+	#about .fossil {
+	  margin-left: auto; 
+	  margin-right: auto; 
+	  max-width: 150px;                   /* small centered underline */
+	}
+
+	#about .grid { 
+	  justify-content: center;            /* center the grid block */
+	}
+
+	#about .grid-3 {
+	  justify-items: center;              /* center each card in its cell */
+	  gap: 20px;
+	  max-width: 1000px;                  /* keep it from stretching too wide */
+	  margin-inline: auto;                /* center the whole grid row */
+	}
+
+	#about .thumb {
+	  width: 100%;
+	  max-width: 320px;                   /* consistent card width like index.html */
+	  text-align: center;
+	}
+	#about .heroWrap { max-width: 1000px; margin-inline: auto; }
+
+    </style>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <header class="nav">
+      <div class="container navInner">
+        <div class="row" style="align-items:center">
+          <div class="pill">Prehistoric VR Museum</div>
+        </div>
+        <nav class="navLinks">
+          <a href="#about">About</a>
+          <a href="#scope">Scope</a>
+          <a href="#gap">Research</a>
+          <a href="#method">Methodology</a>
+          <a href="#docs">Docs</a>
+          <a href="#team">Team</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="container hero anchor" id="about">
+      <div class="heroWrap">
+        <!-- Keep original image -->
+        <img src="images/bg.jpg" alt="Lush prehistoric forest">
+        <div class="heroCopy">
+          <h1>Experience the Mesozoic Era Like Never Before</h1>
+          <p class="muted" style="color:#E9E4DB; font-size: 12px;">An interactive VR museum with AI-driven guides, living animal behavior, and timeline quests.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:22px">Description</h2>
+      <div class="fossil"></div>
+      <p class="muted">
+        Our research project is a multi-disciplinary system that integrates virtual reality, artificial intelligence, behavioral simulation, VR timeline and Extincition Event Simulation into a single ecosystem. 
+        Its centerpiece is an immersive Prehistoric VR Museum designed for the Meta Quest 3 headset, supported by AI-driven interactions, dynamic animal behavior, and interactive educational features.
+      </p>
+
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="thumb"><span>image 1</span></div>
+        <div class="thumb"><span>image 2</span></div>
+        <div class="thumb"><span>image 3</span></div>
+      </div>
+    </section>
+
+    <!-- SCOPE -->
+    <section class="section anchor" id="scope">
+      <div class="container">
+        <h2>Project Scope</h2>
+        <div class="fossil"></div>
+
+        <h3>Literature Survey</h3>
+        <p class="muted callout">
+          Traditional prehistoric education—textbooks, documentaries, and static exhibits—is often passive, text-heavy, and low in engagement, limiting memory retention and attention. Existing VR projects, including 360° videos and animated reconstructions, provide more immersion but remain mostly static and scripted.
+          Advances in VR and AI offer interactive, immersive learning opportunities. VR allows users to explore inaccessible environments and visualize complex concepts, while AI enables spatially aware guides that provide context-sensitive explanations and personalized interactions. 
+          Studies in STEM and museums show immersive VR improves comprehension, retention, and spatial reasoning.
+        </p>
+        <p class="muted">
+          Previous AI behavior modeling using rule-based systems or fuzzy logic lacks adaptability and realism. Integrating machine learning with VR allows autonomous prehistoric animals to respond to environmental conditions, social dynamics, and internal states. 
+          Projects like Dinosaurs and Crvena Stijena VR demonstrate interest in immersive prehistoric experiences but still rely on static storytelling and limited interactivity.
+          This project addresses these gaps by creating an AI-driven, spatially aware VR environment with dynamic animal behaviors, interactive activities, and memory- and attention-enhancing techniques, transforming passive exploration into active, engaging learning.
+        </p>
+
+        <!-- Educational content bar -->
+        <div class="card" style="margin-top:12px">
+          <div class="kicker" style="text-align:center;margin-bottom:8px;color:var(--accent)">Educational Content Including</div>
+          <div class="grid grid-4">
+            <div class="stack-sm" style="text-align:center">
+              <div class="thumb" style="aspect-ratio:1.8/1"><img src="images/guide.png" alt="VR Guide" style="height:100%; width:100%; object-fit:contain"></div>
+              <div>VR Guide</div>
+            </div>
+            <div class="stack-sm" style="text-align:center">
+              <div class="thumb" style="aspect-ratio:1.8/1">icon</div>
+              <div>Prehistoric Timeline</div>
+            </div>
+            <div class="stack-sm" style="text-align:center">
+              <div class="thumb" style="aspect-ratio:1.8/1">icon</div>
+              <div>Animal Behavior Simulation</div>
+            </div>
+            <div class="stack-sm" style="text-align:center">
+              <div class="thumb" style="aspect-ratio:1.8/1">icon</div>
+              <div>Extinction Event Simulation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH GAP + PROBLEM/SOLUTION + OBJECTIVES -->
+    <section class="section anchor" id="gap">
+      <div class="container">
+        <h2>Research Gap</h2>
+        <div class="fossil"></div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>AI-Driven Prehistoric Animal Interactions in VR</h3>
+            <p class="muted">Existing VR exhibits rarely include scalable and believable AI animals. We propose herd/predator logic with scene-aware behaviors.</p>
+          </div>
+          <div class="card">
+            <h3>Enhancing Memory & Attention in VR Learning</h3>
+            <p class="muted">We add timeline quests, spatial anchors, and spaced-recall cues to improve focus and learning outcomes.</p>
+          </div>
+          <div class="card">
+            <h3>Beyond Static Storytelling in Prehistoric VR</h3>
+            <p class="muted">From passive viewing to dynamic scenes: reactive narration and hands-on interactions.</p>
+          </div>
+          <div class="card">
+            <h3>Context-Aware AI Guides</h3>
+            <p class="muted">Guides read the room: surfaces, exhibit proximity, and player location for natural interactions.</p>
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px">Research Problem & Solution</h2>
+        <div class="fossil"></div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Research Problem</h3>
+            <p class="muted">Describe the central challenge (e.g., low engagement/retention with static VR exhibits; limited interactivity and adaptive guidance).</p>
+          </div>
+          <div class="card">
+            <h3>Proposed Solution</h3>
+            <p class="muted">An AI-guided, scene-aware VR museum featuring dynamic animal simulations, a playable timeline, and memory enhancers.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:16px">Research Objectives</h3>
+        <ul class="list">
+          <li>Design a context-aware VR guide with spatial triggers.</li>
+          <li>Implement animal behavior (herding, predator-prey) with ML-Agents.</li>
+          <li>Build a playable prehistoric timeline with narration.</li>
+          <li>Evaluate learning/retention via user studies.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- METHODOLOGY -->
+    <section class="section anchor" id="method">
+      <div class="container">
+        <h2>Methodology</h2>
+        <div class="fossil"></div>
+
+        <h3>1. Prototype & Scene Setup</h3>
+        <p class="muted">Environment blockout, interaction patterns, and baseline navigation (teleport + direct locomotion).</p>
+
+        <h3>2. AI & Simulation</h3>
+        <p class="muted">Herding, predator detection, feeding interactions, and narrator triggers linked to exhibits.</p>
+
+        <h3>3. Evaluation</h3>
+        <p class="muted">Usability testing, knowledge retention measures, and iteration.</p>
+
+        <div class="grid grid-2" style="margin-top:10px">
+          <div class="thumb">method image A</div>
+          <div class="thumb">method image B</div>
+        </div>
+
+        <h3 style="margin-top:18px">Technologies Used</h3>
+        <div class="techRow">
+          <img src="images/blender.png" alt="Blender logo">
+          <img src="images/unity.png" alt="Unity logo">
+          <img src="images/vscode.png" alt="VS Code logo">
+        </div>
+
+        <h3 style="margin-top:18px">Milestones</h3>
+        <div class="card" style="min-height:180px;display:flex;align-items:center;justify-content:center">
+          <div class="muted">Gantt / timeline image or list goes here</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCUMENTS -->
+    <section class="section anchor" id="docs">
+      <div class="container">
+        <h2>Project Documents & Presentation</h2>
+        <div class="fossil"></div>
+        <div class="grid grid-4">
+          <a class="card" href="docs/Progress-Presentation.pdf" target="_blank" rel="noopener">
+            <div class="thumb" style="margin-bottom:10px">PDF thumb</div>
+            <div class="stack-sm">
+              <strong>Progress Presentation</strong>
+              <div class="muted">Updated: Oct 21, 2025</div>
+            </div>
+          </a>
+          <div class="card"><div class="thumb">doc</div></div>
+          <div class="card"><div class="thumb">doc</div></div>
+          <div class="card"><div class="thumb">doc</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section anchor" id="team">
+      <div class="container">
+        <h2>Learn More About Us</h2>
+        <div class="fossil"></div>
+
+        <div class="grid grid-2">
+          <!-- Supervisors -->
+          <div class="card person">
+            <img src="images/is.png" class="avatar" alt="Mr. Aruna Ishara Gamage"/>
+            <div class="stack">
+              <div><strong>Mr. Aruna Ishara Gamage</strong> <span class="muted">— Supervisor</span></div>
+              <div class="muted">Sri Lanka Institute of Information Technology • Faculty of Computing</div>
+              <div class="ctaRow">
+                <a class="btn" href="https://www.linkedin.com/in/aruna-ishara-gamage-145a91138/" target="_blank" rel="noopener">LinkedIn</a>
+                <a class="btn ghost" href="mailto:ishara.g@sliit.lk">Email</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card person">
+            <img src="images/ns.png" class="avatar" alt="Mr. Nushkan Nismi"/>
+            <div class="stack">
+              <div><strong>Mr. Nushkan Nismi</strong> <span class="muted">— Co-Supervisor</span></div>
+              <div class="muted">Sri Lanka Institute of Information Technology • Faculty of Computing</div>
+              <div class="ctaRow">
+                <a class="btn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+                <a class="btn ghost" href="mailto:nushkan.n@sliit.lk">Email</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Students -->
+        <div class="grid grid-2" style="margin-top:12px">
+          <div class="card person">
+            <img src="" class="avatar" alt="M M Ilangameera"/>
+            <div class="stack">
+              <div><strong>M M Ilangameera</strong> <span class="muted">— IT21284502</span></div>
+              <div class="muted">SLIIT • Faculty of Computing</div>
+              <div class="ctaRow">
+                <a class="btn" href="https://www.linkedin.com/in/m-madhara/">LinkedIn</a>
+                <a class="btn ghost" href="mailto:it21284502@my.sliit.lk">Email</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card person">
+            <img class="avatar" alt="Waynath S.P.K"/>
+            <div class="stack">
+              <div><strong>Waynath S.P.K</strong> <span class="muted">— IT21803420</span></div>
+              <div class="muted">SLIIT • Faculty of Computing</div>
+              <div class="ctaRow">
+                <a class="btn" href="https://www.linkedin.com/in/kisurawsp/">LinkedIn</a>
+                <a class="btn ghost" href="mailto:it21803420@my.sliit.lk">Email</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card person">
+            <img src="images/js.png" class="avatar" alt="Dissanayake J S"/>
+            <div class="stack">
+              <div><strong>Dissanayake J S</strong> <span class="muted">— IT21318970</span></div>
+              <div class="muted">SLIIT • Faculty of Computing</div>
+              <div class="ctaRow">
+                <a class="btn" href="https://www.linkedin.com/in/januk-dissanayake/">LinkedIn</a>
+                <a class="btn ghost" href="mailto:it21318970@my.sliit.lk">Email</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card person">
+            <img class="avatar" src="images/kw.png" alt="Kodithuwakku A.K"/>
+            <div class="stack">
+              <div><strong>Kodithuwakku A.K</strong> <span class="muted">— IT21231582</span></div>
+              <div class="muted">SLIIT • Faculty of Computing</div>
+              <div class="ctaRow">
+                <a class="btn" href="https://www.linkedin.com/in/kojitha-kodithuwakku-/">LinkedIn</a>
+                <a class="btn ghost" href="mailto:it21231582@my.sliit.lk">Email</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container row" style="justify-content:space-between">
+        <div>© <span id="y"></span> Prehistoric VR Museum — All rights reserved</div>
+        <div class="muted">Quick links • Privacy • Terms</div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('y').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

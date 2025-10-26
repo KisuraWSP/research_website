@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaleoVision — Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/logo.png">
+
+  <style>
+    /* ====== THEME ====== */
+    :root{
+      --bg:#0f1310;
+      --paper:#141A16;
+      --ink:#EDECE5;
+      --muted:#A6AE9E;
+      --ring:#243025;
+      --ring-2:#2D3A2F;
+      --fern:#7DBA9F;
+      --moss:#5A8E7B;
+      --ember:#A76745;
+      --bone:#FCFAF5;
+      --max:1100px;
+      --r:16px;
+      --shadow:0 14px 38px rgba(0,0,0,.25);
+    }
+
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 120% -10%, rgba(122,85,56,.15), transparent 60%),
+        radial-gradient(1200px 600px at -10% -10%, rgba(61,104,88,.18), transparent 60%),
+        var(--bg);
+      line-height:1.65;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .container{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* ====== NAV ====== */
+    .nav{
+      position:sticky;top:0;z-index:40;
+      background:linear-gradient(180deg, rgba(20,26,22,.9), rgba(20,26,22,.6));
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--ring);
+    }
+    .navInner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+    .brand{
+      display:inline-flex;align-items:center;gap:.6rem;padding:.45rem .8rem;border-radius:999px;
+      background:linear-gradient(180deg, #1C231E, #141A16);border:1px solid var(--ring);
+      box-shadow:0 2px 0 rgba(255,255,255,.04) inset, 0 6px 14px rgba(0,0,0,.25);
+      font-weight:700
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--fern);box-shadow:0 0 0 3px rgba(125,186,159,.18)}
+    .navLinks{display:flex;gap:8px;flex-wrap:wrap}
+    .navLinks a{
+      padding:.45rem .7rem;border-radius:999px;color:#D8E2D5;border:1px solid transparent;
+      transition: all .2s ease;
+    }
+    .navLinks a:hover, .navLinks a.active {
+      background:rgba(125,186,159,.10);
+      border-color:rgba(125,186,159,.18);
+      color: var(--fern);
+    }
+
+    /* ====== HERO ====== */
+    .hero{padding:16px 0 8px}
+    .heroWrap{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--ring);box-shadow:var(--shadow)}
+    
+    /* === MODIFICATION HERE === */
+    .heroWrap img{
+      width:100%;
+      /* height:400px;  <-- REMOVED to respect image's natural aspect ratio */
+      /* object-fit:cover; <-- REMOVED to show the full image */
+      filter:contrast(1.02) saturate(1.02);
+      transition: transform 6s ease-out;
+    }
+    /* === END MODIFICATION === */
+
+    .heroWrap:hover img {
+      transform: scale(1.03);
+    }
+    .heroWrap::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(100% 70% at 50% 0%, rgba(167,103,69,.28), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,0) 38%);
+      mix-blend-mode:multiply;
+    }
+    .heroCopy{
+      position:absolute;right:18px;bottom:18px;max-width:420px;
+      background:rgba(20,26,22,.55);color:#fff;padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.18);
+      backdrop-filter:blur(2px)
+    }
+    h1{font-family:Cinzel,serif;font-weight:800;letter-spacing:.01em;font-size:clamp(28px,4.5vw,46px);line-height:1.08;margin:0 0 6px}
+
+    /* ====== Sections ====== */
+    section.section{padding:46px 0;border-top:1px solid var(--ring);background:transparent}
+    h2{font-family:Cinzel,serif;font-weight:800;letter-spacing:.01em;font-size:clamp(22px,3.3vw,34px);margin:0 0 12px}
+    h3{font-weight:800;margin:16px 0 8px}
+    .muted{color:var(--muted)}
+    .card{background:#121712;border:1px solid var(--ring);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}
+    .list{padding-left:1.2rem}
+    .list li{margin:.25rem 0}
+
+    /* fossil underline */
+    .fossil{
+      height:10px;margin:10px auto 18px;opacity:.5;border-radius:6px;max-width:150px;
+      background:repeating-linear-gradient(90deg, rgba(125,186,159,.55) 0 16px, rgba(0,0,0,0) 16px 24px);
+    }
+
+    /* ====== Grid ====== */
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+    .grid-4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+
+    .thumb{
+      background:linear-gradient(180deg, #1B211C, #151B16);
+      border:1px dashed var(--ring-2);border-radius:14px;aspect-ratio:16/10;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#98A697;
+      font-size:14px;
+    }
+
+    /* ====== ABOUT (centered) ====== */
+    #aboutWrap{max-width:1000px;margin:0 auto}
+    #aboutWrap h2, #aboutWrap p{text-align:center}
+    #aboutWrap p{max-width:900px;margin:0 auto}
+    #aboutWrap .grid-3{justify-items:center;margin-top:22px}
+    #aboutWrap .thumb{max-width:320px;width:100%}
+
+    /* ====== TIMELINE ====== */
+    .timeline{position:relative;max-width:800px;margin:40px auto;padding-left:40px}
+    .timeline::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:2px;background:linear-gradient(var(--fern),var(--moss));border-radius:2px;opacity:.6}
+    .timeline li{position:relative;list-style:none;margin:20px 0;padding-left:20px}
+    .timeline li::before{content:"";position:absolute;left:-28px;top:8px;width:14px;height:14px;background:var(--fern);border:2px solid var(--moss);border-radius:50%;box-shadow:0 0 8px rgba(125,186,159,.6)}
+    .timeline strong{color:var(--bone);font-weight:700}
+    .timeline p{color:var(--muted);margin:6px 0 0;line-height:1.6;font-size:.95rem}
+    .timeline li:hover::before{transform:scale(1.15);box-shadow:0 0 12px rgba(125,186,159,.9);transition:.2s}
+
+    /* ====== Educational Content (squares) ====== */
+    #scope .grid-4 .thumb{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px dashed var(--ring-2);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#1B211C,#151B16);transition:transform .25s ease, box-shadow .25s ease}
+    #scope .grid-4 .thumb img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+    #scope .grid-4 .thumb:hover{transform:scale(1.03);box-shadow:0 0 10px rgba(125,186,159,.4)}
+
+    /* ====== Team Cards ====== */
+    .person{
+      position:relative;
+      padding: 24px 16px 16px 16px;           
+      border-radius:16px;
+      background:linear-gradient(180deg,#151C16,#121712);
+      border:1px solid var(--ring);
+      box-shadow:0 10px 22px rgba(0,0,0,.25);
+      overflow: hidden;                       
+      display: flex;                          
+      flex-direction: column;                 
+      align-items: center;                    
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; 
+    }
+    .person:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(0,0,0,.30), 0 0 12px rgba(125,186,159,.2);
+      border-color: var(--ring-2);
+    }
+
+    .person .avatar{
+      width:96px;height:96px;
+      border-radius:50%;
+      object-fit:cover;
+      border:4px solid var(--ring-2);              
+      box-shadow:0 4px 12px rgba(0,0,0,.25);     
+      background:#202820;
+    }
+    .person .badge{
+      position:absolute;
+      right: 12px;                          
+      top: 12px;                            
+      background:var(--fern);color:#0e130f;
+      font-weight:800;letter-spacing:.06em;
+      padding: 4px 10px;                    
+      border-radius: 8px;                   
+      box-shadow:0 4px 12px rgba(125,186,159,.25);
+      font-size: 11px;                      
+      text-transform: uppercase;            
+    }
+    
+    .badge.leader{background:#A76745;color:#fff}      
+    .badge.member{background:var(--fern)}
+    .badge.supervisor{background:var(--fern)}
+    .badge.cosupervisor{background:var(--fern)}
+
+    .person .name{
+      margin-top: 16px; 
+      font-weight:800;
+      text-align: center; 
+    }
+    .person .meta{
+      color:var(--muted);font-size:.95rem;line-height:1.4;
+      text-align: center; 
+    }
+    .person .faculty{
+      font-weight:800;margin-top:6px;
+      text-align: center; 
+    }
+
+    .person .hr{
+      height:1px;background:var(--ring);margin:12px 0 10px;border-radius:1px;
+    }
+
+    .personFooter{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+      width: 100%; 
+    }
+    .personFooter a{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:.5rem .75rem;border-radius:999px;
+      border:1px solid var(--ring);font-weight:700;color:var(--ink);
+      background:transparent;
+      transition: all .25s ease; 
+    }
+    .personFooter a:hover{
+      border-color:var(--fern);
+      box-shadow:0 0 10px rgba(125,186,159,.25);
+      background: rgba(125,186,159,.1); 
+      color: var(--fern); 
+    }
+
+    /* ====== Document Cards (NEW) ====== */
+    .resource-heading {
+      font-family: Cinzel, serif;
+      font-weight: 600;
+      font-size: clamp(20px, 2.5vw, 26px);
+      margin: 24px 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--fern);
+    }
+    .resource-heading svg {
+      width: 24px;
+      height: 24px;
+      opacity: 0.8;
+    }
+
+    .doc-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      border: 1px solid var(--ring);
+      border-radius: var(--r);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .doc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(0,0,0,.30), 0 0 12px rgba(125,186,159,.2);
+      border-color: var(--ring-2);
+    }
+
+    .file-icon {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 6px;
+      color: #fff;
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 12px;
+    }
+    .file-icon.pdf { background-color: #E64E4E; } /* Red */
+    .file-icon.ppt { background-color: #D9822B; } /* Orange */
+
+    .doc-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--bone);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .doc-meta, .doc-owner {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .owner-badge {
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+    .owner-badge.group {
+      background: rgba(125, 186, 159, 0.2);
+      color: var(--fern);
+    }
+    .owner-badge.individual {
+      background: var(--ring-2);
+      color: var(--muted);
+    }
+
+    .doc-download {
+      margin-top: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--ring-2);
+      text-align: center;
+      font-weight: 700;
+      color: var(--muted);
+      transition: all .2s ease;
+      /* Flex-grow to push to bottom (if needed, but margin works) */
+      margin-top: auto; /* Pushes button to bottom */
+      padding-top: 9px; /* visual alignment */
+    }
+    .doc-card:hover .doc-download {
+      border-color: var(--fern);
+      box-shadow: 0 0 10px rgba(125,186,159,.25);
+      background: rgba(125,186,159,.1);
+      color: var(--fern);
+    }
+    /* ====== Footer ====== */
+    .footer{padding:28px 0;border-top:1px solid var(--ring);color:var(--muted);font-size:.95rem}
+    .kicker{font-size:.85rem;color:var(--fern);letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:8px}
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container navInner">
+      <div class="brand"><span class="dot"></span> PaleoVision</div>
+      <nav class="navLinks">
+        <a href="#about">About</a>
+        <a href="#scope">Scope</a>
+        <a href="#gap">Research</a>
+        <a href="#method">Methodology</a>
+        <a href="#docs">Docs</a>
+        <a href="#team">Team</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container hero" id="hero">
+    <div class="heroWrap">
+      <img src="images/bg2.png" alt="Banner">
+      <div class="heroCopy">
+        <h1>Experience the Mesozoic Era Like Never Before</h1>
+        <p class="muted" style="color:#E9E4DB;font-size:12px">
+          An interactive VR museum with AI-driven guides, living animal behavior, and timeline quests.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container" id="aboutWrap">
+      <h2>DESCRIPTION</h2>
+      <div class="fossil"></div>
+      <p class="muted">
+        Our research project is a multi-disciplinary system that integrates virtual reality, artificial intelligence,
+        behavioral simulation, VR timeline and Extinction Event Simulation into a single ecosystem. Its centerpiece is
+        an immersive PaleoVision experience designed for the Meta Quest 3 headset, supported by AI-driven interactions,
+        dynamic animal behavior, and interactive educational features.
+      </p>
+
+      <div class="grid grid-3">
+        <div class="thumb"><span>image 1</span></div>
+        <div class="thumb"><span>image 2</span></div>
+        <div class="thumb"><span>image 3</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="scope">
+    <div class="container">
+      <h2>PROJECT SCOPE</h2>
+      <div class="fossil"></div>
+
+      <h3>Literature Survey</h3>
+      <p class="muted card">
+        Traditional prehistoric education—textbooks, documentaries, and static exhibits—is often passive, text-heavy,
+        and low in engagement, limiting memory retention and attention. Existing VR projects, including 360° videos and
+        animated reconstructions, provide more immersion but remain mostly static and scripted. Advances in VR and AI
+        offer interactive, immersive learning opportunities. VR allows users to explore inaccessible environments and
+        visualize complex concepts, while AI enables spatially aware guides that provide context-sensitive explanations
+        and personalized interactions. Studies in STEM and museums show immersive VR improves comprehension, retention,
+        and spatial reasoning.
+      </p>
+      <p class="muted">
+        Previous AI behavior modeling using rule-based systems or fuzzy logic lacks adaptability and realism. Integrating
+        machine learning with VR allows autonomous prehistoric animals to respond to environmental conditions, social
+        dynamics, and internal states. Projects like Dinosaurs and Crvena Stijena VR demonstrate interest in immersive
+        prehistoric experiences but still rely on static storytelling and limited interactivity. This project addresses
+        these gaps by creating an AI-driven, spatially aware VR environment with dynamic animal behaviors, interactive
+        activities, and memory- and attention-enhancing techniques, transforming passive exploration into active,
+        engaging learning.
+      </p>
+
+      <div class="card" style="margin-top:14px">
+        <div class="kicker">Educational Content Including</div>
+        <div class="grid grid-4">
+          <div class="thumb">
+            <a href="https://youtu.be/vKYSgWGN-r0" target="_blank" rel="noopener noreferrer">
+              <img src="images/guide.png" alt="VR Guide" style="width:100%;height:100%;object-fit:contain">
+            </a>
+          </div>
+          <div class="thumb">icon</div>
+          <div class="thumb">icon</div>
+          <div class="thumb">icon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="gap">
+    <div class="container">
+      <h2>RESEARCH GAP</h2>
+      <div class="fossil"></div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>AI-Driven Prehistoric Animal Interactions in VR</h3>
+          <p class="muted">Existing VR exhibits rarely include scalable and believable AI animals. We propose herd/predator logic with scene-aware behaviors.</p>
+        </div>
+        <div class="card">
+          <h3>Enhancing Memory & Attention in VR Learning</h3>
+          <p class="muted">We add timeline quests, spatial anchors, and spaced-recall cues to improve focus and learning outcomes.</p>
+        </div>
+        <div class="card">
+          <h3>Beyond Static Storytelling in Prehistoric VR</h3>
+          <p class="muted">From passive viewing to dynamic scenes: reactive narration and hands-on interactions.</p>
+        </div>
+        <div class="card">
+          <h3>Context-Aware AI Guides</h3>
+          <p class="muted">Guides read the room: surfaces, exhibit proximity, and player location for natural interactions.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:18px">RESEARCH PROBLEM & SOLUTION</h2>
+      <div class="fossil"></div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Research Problem</h3>
+          <p class="muted">Low engagement/retention with static VR exhibits; limited interactivity and adaptive guidance.</p>
+        </div>
+        <div class="card">
+          <h3>Proposed Solution</h3>
+          <p class="muted">An AI-guided, scene-aware VR museum featuring dynamic animal simulations, a playable timeline, and memory enhancers.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:16px">Research Objectives</h3>
+      <ul class="list">
+        <li>Design a context-aware VR guide with spatial triggers.</li>
+        <li>Implement animal behavior (herding, predator-prey) with ML-Agents.</li>
+        <li>Build a playable prehistoric timeline with narration.</li>
+        <li>Evaluate learning/retention via user studies.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="method">
+    <div class="container">
+      <h2>METHODOLOGY</h2>
+      <div class="fossil"></div>
+
+      <h3>1. Prototype & Scene Setup</h3>
+      <p class="muted">Environment blockout, interaction patterns, and baseline navigation (teleport + direct locomotion).</p>
+
+      <h3>2. AI & Simulation</h3>
+      <p class="muted">Herding, predator detection, feeding interactions, and narrator triggers linked to exhibits.</p>
+
+      <h3>3. Evaluation</h3>
+      <p class="muted">Usability testing, knowledge retention measures, and iteration.</p>
+
+      <div class="grid grid-2" style="margin-top:10px">
+        <div class="thumb">method image A</div>
+        <div class="thumb">method image B</div>
+      </div>
+
+      <h3 style="margin-top:18px">Milestones</h3>
+      <div class="card" style="padding:24px">
+        <h4 style="text-align:center;color:var(--fern)">Timelines in Brief</h4>
+        <ul class="timeline">
+          <li>
+            <strong>Project Proposal — August 2024</strong>
+            <p>A Project Proposal is presented to potential sponsors or clients to receive funding or get your project approved.</p>
+          </li>
+          <li>
+            <strong>Progress Presentation I — December 2024</strong>
+            <p>Reviews the 50% completion status of the project, revealing any gaps or inconsistencies in the design or requirements.</p>
+          </li>
+          <li>
+            <strong>Research Paper — March 2025</strong>
+            <p>Describes contributions to existing knowledge, giving due recognition to all referenced work in making new knowledge.</p>
+          </li>
+          <li>
+            <strong>Progress Presentation II — March 2025</strong>
+            <p>Reviews the 90% completion status and demonstration of the project.</p>
+          </li>
+          <li>
+            <strong>Website Assessment — May 2025</strong>
+            <p>The website helps promote our research project and reveals all details related to the project.</p>
+          </li>
+          <li>
+            <strong>Logbook — Ongoing</strong>
+            <p>The status of the project is validated through the Logbook.</p>
+          </li>
+          <li>
+            <strong>Final Thesis Document — May 2025</strong>
+            <p>Evaluates the completed project over the year and includes both individual and group reports.</p>
+          </li>
+          <li>
+            <strong>Final Presentation & Viva — May 2025</strong>
+            <p>Conducted individually to assess each member’s contribution to the project.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="docs">
+    <div class="container">
+      <h2>PROJECT RESOURCES</h2>
+      <div class="fossil"></div>
+
+      <h3 class="resource-heading">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" aria-hidden="true"><path d="M6 2C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2H6M13 3.5L18.5 9H13V3.5M8 11H16V13H8V11M8 15H16V17H8V15Z"></path></svg>
+        Documents
+      </h3>
+
+      <div class="grid grid-3">
+        <a class="doc-card" href="docs/Topic-Assessment-Form.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Topic Assessment Form</div>
+          <div class="doc-meta">Submitted: June 25, 2025</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge group">Group</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Project-Proposal-IT21141024.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Project Proposal - IT21284502</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="documents/Research Project Proposal Report- IT21803420.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Project Proposal - IT21803420</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Project-Proposal-IT21164712.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Project Proposal - IT21318970</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Project-Proposal-IT21164712.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Project Proposal - IT21231582</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Project-Proposal-IT21164712.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Final Report - IT21284502</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="documents/IT21803420-R25-056-Final_Report.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Final Report - IT21803420</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Project-Proposal-IT21164712.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Final Report - IT21318970</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Project-Proposal-IT21164712.pdf" target="_blank" rel="noopener">
+          <span class="file-icon pdf">PDF</span>
+          <div class="doc-title">Final Report - IT21231582</div>
+          <div class="doc-meta">Submitted: August 24, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge individual">Individual</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+      </div>
+
+      <h3 class="resource-heading" style="margin-top: 32px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" aria-hidden="true"><path d="M20 3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3M20 19H4V5H20V19M10 6H8V8H10V6M16 6H12V8H16V6M10 10H8V12H10V10M13 10H11V12H13V10M16 10H14V12H16V10M10 14H8V16H10V14M16 14H12V16H16V14Z"></path></svg>
+        Presentations
+      </h3>
+
+      <div class="grid grid-3">
+        <a class="doc-card" href="docs/Progress-Presentation-I.pptx" target="_blank" rel="noopener">
+          <span class="file-icon ppt">PPT</span>
+          <div class="doc-title">Progress Presentation I</div>
+          <div class="doc-meta">Submitted: December 06, 2024</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge group">Group</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Progress-Presentation-II.pptx" target="_blank" rel="noopener">
+          <span class="file-icon ppt">PPT</span>
+          <div class="doc-title">Progress Presentation II</div>
+          <div class="doc-meta">Submitted: March 21, 2025</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge group">Group</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+
+        <a class="doc-card" href="docs/Final-Presentation.pptx" target="_blank" rel="noopener">
+          <span class="file-icon ppt">PPT</span>
+          <div class="doc-title">Final Presentation</div>
+          <div class="doc-meta">Submitted: May 29, 2025</div>
+          <div class="doc-owner">
+            Owner: <span class="owner-badge group">Group</span>
+          </div>
+          <div class="doc-download">Download</div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+  <section class="section" id="team">
+    <div class="container">
+      <h2>LEARN MORE ABOUT US</h2>
+      <div class="fossil"></div>
+
+      <div class="grid grid-2">
+        <div class="person">
+          <span class="badge supervisor">Supervisor</span>
+          <img src="images/is.png" class="avatar" alt="Mr. Aruna Ishara Gamage">
+          <div class="name">Mr. Aruna Ishara Gamage</div>
+          <div class="meta">Sri Lanka Institute of Information Technology</div>
+          <div class="faculty">Faculty of Computing</div>
+          <div class="hr"></div>
+          <div class="personFooter">
+            <a href="https://www.linkedin.com/in/aruna-ishara-gamage-145a91138/" target="_blank">LinkedIn</a>
+            <a href="mailto:ishara.g@sliit.lk">E-Mail</a>
+          </div>
+        </div>
+
+        <div class="person">
+          <span class="badge cosupervisor">Co-Supervisor</span>
+          <img src="images/ns.png" class="avatar" alt="Mr. Nushkan Nismi">
+          <div class="name">Mr. Nushkan Nismi</div>
+          <div class="meta">Sri Lanka Institute of Information Technology</div>
+          <div class="faculty">Faculty of Computing</div>
+          <div class="hr"></div>
+          <div class="personFooter">
+            <a href="#" target="_blank">LinkedIn</a>
+            <a href="mailto:nushkan.n@sliit.lk">E-Mail</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:12px">
+        <div class="person">
+          <span class="badge leader">Group Leader</span>
+          <img class="avatar" src="images/il.jpg" alt="M M Ilangameera">
+          <div class="name">M M Ilangameera</div>
+          <div class="meta">IT21284502 • SLIIT</div>
+          <div class="faculty">Faculty of Computing</div>
+          <div class="hr"></div>
+          <div class="personFooter">
+            <a href="https://www.linkedin.com/in/m-madhara/" target="_blank">LinkedIn</a>
+            <a href="mailto:it21284502@my.sliit.lk">E-Mail</a>
+          </div>
+        </div>
+
+        <div class="person">
+          <span class="badge member">Group Member</span>
+          <img class="avatar" src="images/ks.png" alt="Waynath S.P.K">
+          <div class="name">Waynath S.P.K</div>
+          <div class="meta">IT21803420 • SLIIT</div>
+          <div class="faculty">Faculty of Computing</div>
+          <div class="hr"></div>
+          <div class="personFooter">
+            <a href="https://www.linkedin.com/in/kisurawsp/" target="_blank">LinkedIn</a>
+            <a href="mailto:it21803420@my.sliit.lk">E-Mail</a>
+          </div>
+        </div>
+
+        <div class="person">
+          <span class="badge member">Group Member</span>
+          <img class="avatar" src="images/js.png" alt="Dissanayake J S">
+          <div class="name">Dissanayake J S</div>
+          <div class="meta">IT21318970 • SLIIT</div>
+          <div class="faculty">Faculty of Computing</div>
+          <div class="hr"></div>
+          <div class="personFooter">
+            <a href="https://www.linkedin.com/in/januk-dissanayake/" target="_blank">LinkedIn</a>
+            <a href="mailto:it21318970@my.sliit.lk">E-Mail</a>
+          </div>
+        </div>
+
+        <div class="person">
+          <span class="badge member">Group Member</span>
+          <img class="avatar" src="images/kw.png" alt="Kodithuwakku A.K">
+          <div class="name">Kodithuwakku A.K</div>
+          <div class="meta">IT21231582 • SLIIT</div>
+          <div class."faculty">Faculty of Computing</div>
+          <div class."hr"></div>
+          <div class="personFooter">
+            <a href="https://www.linkedin.com/in/kojitha-kodithuwakku-/" target="_blank">LinkedIn</a>
+            <a href="mailto:it21231582@my.sliit.lk">E-Mail</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© <span id="y"></span> PaleoVision Team — All rights reserved</div>
+      <div class="muted">
+        Contact us: <a href="mailto:paleovisionteam@gmail.com" style="color:var(--fern)">paleovisionteam@gmail.com</a> • 
+        <a href="https://www.youtube.com/@PaleoVisionTeam" target="_blank" style="color:var(--fern)">YouTube Channel</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // smooth anchor scroll + active link
+    const links = document.querySelectorAll('.navLinks a');
+    links.forEach(a=>{
+      a.addEventListener('click',e=>{
+        const href = a.getAttribute('href') || '';
+        if(href.startsWith('#')){
+          e.preventDefault();
+          document.querySelector(href)?.scrollIntoView({behavior:'smooth',block:'start'});
+          history.replaceState(null,'',href);
+        }
+      });
+    });
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          links.forEach(l=>l.classList.remove('active'));
+          const active = document.querySelector(`.navLinks a[href="#${entry.target.id}"]`);
+          active && active.classList.add('active');
+        }
+      });
+    },{threshold:.4});
+    ['about','scope','gap','method','docs','team'].forEach(id=>{
+      const el = document.getElementById(id);
+      el && observer.observe(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/png" href="images/logo.png"> 
+        <title>Prehistoric VR Museum — Project</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+        <style>
+            :root{
+                --bg:#f6f7f8; --card:#ffffff; --ink:#121416; --muted:#6b7280;
+                --ring:#e5e7eb; --ring-2:#d1d5db; --brand:#7b1111; --brand-ink:#fff;
+                --max:1100px; --r:16px; --shadow:0 8px 24px rgba(0,0,0,.06);
+            }
+
+            *{
+                box-sizing:border-box
+            } 
+
+            html, body{
+                margin:0;
+                background:var(--bg);
+                color:var(--ink);
+                font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+                line-height:1.6
+            }
+
+            img{
+                max-width:100%;
+                display:block
+            }
+            
+            a{
+                text-decoration:none;
+                color:inherit
+            }
+
+            .container{
+                max-width:var(--max);
+                margin:0 auto;
+                padding:0 18px
+            }
+
+            .nav{
+                position:sticky;
+                top:0;background:rgba(255,255,255,.75);
+                backdrop-filter:blur(8px);
+                border-bottom:1px solid var(--ring);
+                z-index:50
+            }
+
+            .navInner{
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                padding:10px 0
+            }
+
+            .navLinks{
+                display:flex;
+                gap:14px;flex-wrap:wrap
+            }
+
+            .navLinks a{
+                padding:.4rem .7rem;
+                border-radius:10px;
+                color:#374151
+            }
+
+            .navLinks a:hover{
+                background:#eef2f7
+            }
+
+            .hero{
+                margin:18px 0
+            }
+
+            .heroWrap{
+                position:relative;
+                border-radius:18px;
+                overflow:hidden;
+                border:1px solid var(--ring)
+            }
+
+            .heroWrap img{
+                width:100%;
+                height:340px;
+                object-fit:cover
+            }
+
+            .heroCopy{
+                position:absolute;
+                right:18px;
+                bottom:18px;
+                max-width:320px;
+                background:rgba(0,0,0,.55);
+                color:#fff;
+                padding:16px;
+                border-radius:14px;
+                backdrop-filter:blur(2px)
+            }
+           
+            h1{
+                font-size:clamp(26px,4vw,44px);
+                margin:0 0 6px;
+                line-height:1.1
+            }
+           
+            h2{
+                font-size:clamp(20px,3vw,28px);
+                margin:28px 0 10px
+            }
+            
+            h3{
+                font-size:18px;
+                margin:16px 0 8px
+            }
+            
+            .lead{
+                color:#111827
+            }
+            
+            .muted{
+                color:var(--muted)
+            }
+            
+            .section{
+                padding:34px 0;
+                border-top:1px solid var(--ring)
+            }
+            
+            .grid{
+                display:grid;
+                gap:16px
+            }
+            
+            .grid-3{
+                grid-template-columns:repeat(auto-fit,minmax(220px,1fr))
+            }
+            
+            .grid-2{
+                grid-template-columns:repeat(auto-fit,minmax(280px,1fr))
+            }
+            
+            .grid-4{
+                grid-template-columns:repeat(auto-fit,minmax(180px,1fr))
+            }
+            
+            .thumb{
+                background:#eef1f4;
+                border:1px dashed var(--ring-2);
+                border-radius:12px;
+                aspect-ratio:16/10;
+                display:flex;align-items:center;
+                justify-content:center;
+                color:#9aa3ad;
+                font-size:14px
+            }
+            
+            .card{
+                background:var(--card);
+                border:1px solid var(--ring);
+                border-radius:var(--r);
+                box-shadow:var(--shadow);
+                padding:16px
+            }
+           
+            .pill{
+                display:inline-block;
+                background:#f0f2f5;
+                border:1px solid var(--ring);
+                color:#4b5563;
+                padding:.35rem .7rem;
+                border-radius:999px;
+                font-size:.85rem
+            }
+            
+            .btn{
+                display:inline-flex;
+                align-items:center;
+                gap:.5rem;
+                background:var(--brand);
+                color:var(--brand-ink);
+                padding:.55rem 1rem;
+                border-radius:999px;
+                font-weight:600;
+                border:0;
+                cursor:pointer
+            }
+            
+            .btn.ghost{
+                background:#fff;
+                color:#111;
+                border:1px solid var(--ring)
+            }
+            
+            .stack-sm>*+*{
+                margin-top:.35rem
+            }
+            
+            .stack>*+*{
+                margin-top:.6rem
+            }
+            
+            .list{
+                padding-left:1.2rem
+            }
+            
+            .list li{
+                margin:.25rem 0
+            }
+            
+            .kicker{
+                font-size:.85rem;
+                color:#6b7280;
+                letter-spacing:.04em;
+                text-transform:uppercase
+            }
+            
+            .row{
+                display:flex;
+                gap:12px;
+                flex-wrap:wrap
+            }
+            
+            
+            .techRow{
+                display:flex;
+                gap:26px;
+                align-items:center;
+                flex-wrap:wrap
+            }
+            
+            .techRow img{
+                height:46px;
+                filter:grayscale(6%)
+            }
+            
+            .person{
+                display:grid;
+                grid-template-columns:64px 1fr;
+                gap:14px;
+                align-items:center
+            }
+            
+            .avatar{
+                width:64px;
+                height:64px;
+                border-radius:12px;
+                background:#eef1f4;
+                border:1px dashed var(--ring-2)
+            }
+            
+            .ctaRow{
+                display:flex;
+                gap:10px;
+                flex-wrap:wrap
+            }
+            
+            .footer{
+                padding:26px 0;
+                border-top:1px solid var(--ring);
+                color:#6b7280;font-size:.9rem
+            }
+            
+            .anchor{
+                scroll-margin-top:80px
+            }
+
+            /* === Team section: make cards match the compact mock === */
+            #team .grid.grid-2 { gap: 18px; }  /* a bit tighter like the mock */
+
+            .person{
+                display:flex !important;        /* override grid layout */
+                flex-direction:column;
+                align-items:center;
+                text-align:center;
+                padding:18px 16px;
+                border-radius:14px;
+                box-shadow:0 6px 18px rgba(0,0,0,.06);
+                background:#fff;
+                border:1px solid var(--ring);
+            }
+
+            .person .avatar{
+                width:96px; height:96px;
+                border-radius:10px;
+                margin:2px 0 10px 0;
+                background:#efeff2;
+                border:1px dashed var(--ring-2);
+                object-fit:cover;               /* real photos crop nicely */
+            }
+
+            .person .stack{ width:100%; }
+            .person .stack > div:first-child{ margin-bottom:6px; }
+
+            /* Name + role line like the mock */
+            .person strong{ font-weight:600; }
+            .person .muted{ color:var(--muted); }
+
+            /* Institution line slightly smaller + lighter */
+            .person .stack .muted:nth-of-type(2){
+                font-size:.95rem;
+            }
+
+            /* Buttons: small rounded pills, maroon primary, light ghost */
+            .person .ctaRow{
+                justify-content:center;
+                margin-top:8px;
+                gap:10px;
+            }
+            .person .btn{
+                padding:.45rem .95rem;
+                font-size:.95rem;
+                border-radius:999px;
+                box-shadow:none;
+            }
+            .person .btn.ghost{
+                background:#fff;
+                border:1px solid var(--ring);
+                color:#111;
+            }
+
+            /* Center-align text content inside those sections */
+            .container {
+                max-width: var(--max);
+                margin: 0 auto;
+                padding: 0 18px;
+                text-align: center;   /* ✅ new */
+            }
+
+            /* Make headings and paragraphs in sections centered */
+            .container h2,
+            .container h3,
+            .container p {
+                text-align: center;
+            }
+
+            /* For grid sections (images, cards), keep them centered but aligned nicely */
+            .grid {
+                justify-content: center;
+            }
+
+            #about {
+                text-align: center;
+            }
+
+            #about .grid {
+                justify-content: center;
+            }
+            /* ---- Undo global centering ---- */
+            .container { 
+                text-align: left; 
+            }                 /* back to default */
+            .container h2,
+            .container h3,
+            .container p { 
+                text-align: left; 
+            }
+            .grid { 
+                justify-content: start; 
+            }
+
+            /* Make sure bulleted lists are truly left-aligned */
+            ul.list { 
+                text-align: left; 
+                list-style: disc; 
+                padding-left: 1.2rem; 
+            }
+            ul.list li { 
+                text-align: left; 
+            }
+        </style>
+    </head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="container navInner">
+    <div class="row" style="align-items:center">
+      <!-- replace with your logo -->
+      <div class="pill">Prehistoric VR Museum</div>
+    </div>
+    <nav class="navLinks">
+      <a href="#about">About</a>
+      <a href="#scope">Scope</a>
+      <a href="#gap">Research</a>
+      <a href="#method">Methodology</a>
+      <a href="#docs">Docs</a>
+      <a href="#team">Team</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="container hero" id="about">
+  <div class="heroWrap">
+    <!-- HERO IMAGE -->
+    <img src="images/bg.jpg" alt="Lush prehistoric forest">
+    <div class="heroCopy">
+      <h1>Experience the Mesozoic Era Like Never Before</h1>
+      <p class="muted" style="color:#e5e7eb; font-size: 10px;">An interactive VR museum with AI-driven guides, living animal behavior, and timeline quests.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:20px">Description</h2>
+  <p class="muted">
+    Our research project is a multi-disciplinary system that integrates virtual reality, artificial intelligence, behavioral simulation, VR timeline and Extincition Event Simulation into a single ecosystem. 
+    Its centerpiece is an immersive Prehistoric VR Museum designed for the Meta Quest 3 headset, supported by AI-driven interactions, dynamic animal behavior, and interactive educational features.
+    
+  </p>
+
+  <div class="grid grid-3" style="margin-top:12px">
+    <div class="thumb">image 1</div>
+    <div class="thumb">image 2</div>
+    <div class="thumb">image 3</div>
+  </div>
+</section>
+
+<!-- SCOPE -->
+<section class="section" id="scope">
+  <div class="container">
+    <h2>Project Scope</h2>
+
+    <h3>Literature Survey</h3>
+    <p class="muted">
+        Traditional prehistoric education—textbooks, documentaries, and static exhibits—is often passive, text-heavy, and low in engagement, limiting memory retention and attention. Existing VR projects, including 360° videos and animated reconstructions, provide more immersion but remain mostly static and scripted.
+        Advances in VR and AI offer interactive, immersive learning opportunities. VR allows users to explore inaccessible environments and visualize complex concepts, while AI enables spatially aware guides that provide context-sensitive explanations and personalized interactions. 
+        Studies in STEM and museums show immersive VR improves comprehension, retention, and spatial reasoning.
+        <br/><br/>
+        Previous AI behavior modeling using rule-based systems or fuzzy logic lacks adaptability and realism. Integrating machine learning with VR allows autonomous prehistoric animals to respond to environmental conditions, social dynamics, and internal states. 
+        Projects like Dinosaurs and Crvena Stijena VR demonstrate interest in immersive prehistoric experiences but still rely on static storytelling and limited interactivity.
+        This project addresses these gaps by creating an AI-driven, spatially aware VR environment with dynamic animal behaviors, interactive activities, and memory- and attention-enhancing techniques, transforming passive exploration into active, engaging learning.
+    </p>
+
+    <!-- “Educational Content Including” bar -->
+    <div class="card" style="margin-top:12px">
+      <div class="kicker" style="text-align:center;margin-bottom:8px">Educational Content Including</div>
+      <div class="grid grid-4">
+        <div class="stack-sm" style="text-align:center">
+          <div class="thumb" style="aspect-ratio:1.8/1"><image src="images/guide.png"/></div>
+          <div>VR Guide</div>
+        </div>
+        <div class="stack-sm" style="text-align:center">
+          <div class="thumb" style="aspect-ratio:1.8/1">icon</div>
+          <div>Prehistoric Timeline</div>
+        </div>
+        <div class="stack-sm" style="text-align:center">
+          <div class="thumb" style="aspect-ratio:1.8/1">icon</div>
+          <div>Animal Behavior Simulation</div>
+        </div>
+        <div class="stack-sm" style="text-align:center">
+          <div class="thumb" style="aspect-ratio:1.8/1">icon</div>
+          <div>Extinction Event Simulation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH GAP + PROBLEM/SOLUTION + OBJECTIVES -->
+<section class="section" id="gap">
+  <div class="container">
+    <h2>Research Gap</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>AI-Driven Prehistoric Animal Interactions in VR</h3>
+        <p class="muted">Existing VR exhibits rarely include scalable and believable AI animals. We propose herd/predator logic with scene-aware behaviors.</p>
+      </div>
+      <div class="card">
+        <h3>Enhancing Memory & Attention in VR Learning</h3>
+        <p class="muted">We add timeline quests, spatial anchors, and spaced-recall cues to improve focus and learning outcomes.</p>
+      </div>
+      <div class="card">
+        <h3>Beyond Static Storytelling in Prehistoric VR</h3>
+        <p class="muted">From passive viewing to dynamic scenes: reactive narration and hands-on interactions.</p>
+      </div>
+      <div class="card">
+        <h3>Context-Aware AI Guides</h3>
+        <p class="muted">Guides read the room: surfaces, exhibit proximity, and player location for natural interactions.</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:18px">Research Problem & Solution</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Research Problem</h3>
+        <p class="muted">Describe the central challenge (e.g., low engagement/retention with static VR exhibits; limited interactivity and adaptive guidance).</p>
+      </div>
+      <div class="card">
+        <h3>Proposed Solution</h3>
+        <p class="muted">An AI-guided, scene-aware VR museum featuring dynamic animal simulations, a playable timeline, and memory enhancers.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:16px">Research Objectives</h3>
+    <ul class="list">
+      <li>Design a context-aware VR guide with spatial triggers.</li>
+      <li>Implement animal behavior (herding, predator-prey) with ML-Agents.</li>
+      <li>Build a playable prehistoric timeline with narration.</li>
+      <li>Evaluate learning/retention via user studies.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="section" id="method">
+  <div class="container">
+    <h2>Methodology</h2>
+
+    <h3>1. Prototype & Scene Setup</h3>
+    <p class="muted">Environment blockout, interaction patterns, and baseline navigation (teleport + direct locomotion).</p>
+
+    <h3>2. AI & Simulation</h3>
+    <p class="muted">Herding, predator detection, feeding interactions, and narrator triggers linked to exhibits.</p>
+
+    <h3>3. Evaluation</h3>
+    <p class="muted">Usability testing, knowledge retention measures, and iteration.</p>
+
+    <div class="grid grid-2" style="margin-top:10px">
+      <div class="thumb">method image A</div>
+      <div class="thumb">method image B</div>
+    </div>
+
+    <h3 style="margin-top:18px">Technologies Used</h3>
+    <div class="techRow">
+      <!-- replace with real logo files -->
+      <img src="images/blender.png" alt="Blender logo">
+      <img src="images/unity.png" alt="Unity logo">
+      <img src="images/vscode.png" alt="VS Code logo">
+    </div>
+
+    <h3 style="margin-top:18px">Milestones</h3>
+    <div class="card" style="min-height:180px;display:flex;align-items:center;justify-content:center">
+      <div class="muted">Gantt / timeline image or list goes here</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="section" id="docs">
+  <div class="container">
+    <h2>Project Documents & Presentation</h2>
+    <div class="grid grid-4">
+      <a class="card" href="docs/Progress-Presentation.pdf" target="_blank" rel="noopener">
+        <div class="thumb" style="margin-bottom:10px">PDF thumb</div>
+        <div class="stack-sm">
+          <strong>Progress Presentation</strong>
+          <div class="muted">Updated: Oct 21, 2025</div>
+        </div>
+      </a>
+      <div class="card"><div class="thumb">doc</div></div>
+      <div class="card"><div class="thumb">doc</div></div>
+      <div class="card"><div class="thumb">doc</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="container">
+    <h2>Learn More About Us</h2>
+
+    <div class="grid grid-2">
+      <!-- Supervisors -->
+      <div class="card person">
+        <image src="images/is.png" class="avatar"/>
+        <div class="stack">
+          <div><strong>Mr. Aruna Ishara Gamage</strong> <span class="muted">— Supervisor</span></div>
+          <div class="muted">Sri Lanka Institute of Information Technology • Faculty of Computing</div>
+          <div class="ctaRow">
+            <a class="btn" href="https://www.linkedin.com/in/aruna-ishara-gamage-145a91138/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn ghost" href="mailto:ishara.g@sliit.lk">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card person">
+        <image src="images/ns.png" class="avatar"/>
+        <div class="stack">
+          <div><strong>Mr. Nushkan Nismi</strong> <span class="muted">— Co-Supervisor</span></div>
+          <div class="muted">Sri Lanka Institute of Information Technology • Faculty of Computing</div>
+          <div class="ctaRow">
+            <a class="btn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn ghost" href="mailto:nushkan.n@sliit.lk">Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Students -->
+    <div class="grid grid-2" style="margin-top:12px">
+      <div class="card person">
+        <img src="" class="avatar"/>
+        <div class="stack">
+          <div><strong>M M Ilangameera</strong> <span class="muted">— IT21284502</span></div>
+          <div class="muted">SLIIT • Faculty of Computing</div>
+          <div class="ctaRow">
+            <a class="btn" href="https://www.linkedin.com/in/m-madhara/">LinkedIn</a>
+            <a class="btn ghost" href="mailto:it21284502@my.sliit.lk">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card person">
+        <img class="avatar"/>
+        <div class="stack">
+          <div><strong>Waynath S.P.K</strong> <span class="muted">— IT21803420</span></div>
+          <div class="muted">SLIIT • Faculty of Computing</div>
+          <div class="ctaRow">
+            <a class="btn" href="https://www.linkedin.com/in/kisurawsp/">LinkedIn</a>
+            <a class="btn ghost" href="mailto:it21803420@my.sliit.lk">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card person">
+        <img src="images/js.png" class="avatar"/>
+        <div class="stack">
+          <div><strong>Dissanayake J S</strong> <span class="muted">— IT21318970</span></div>
+          <div class="muted">SLIIT • Faculty of Computing</div>
+          <div class="ctaRow">
+            <a class="btn" href="https://www.linkedin.com/in/januk-dissanayake/">LinkedIn</a>
+            <a class="btn ghost" href="mailto:it21318970@my.sliit.lk">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card person">
+        <img class="avatar" src="images/kw.png" alt="Kodithuwakku A.K"/>
+        <div class="stack">
+          <div><strong>Kodithuwakku A.K</strong> <span class="muted">— IT21231582</span></div>
+          <div class="muted">SLIIT • Faculty of Computing</div>
+          <div class="ctaRow">
+            <a class="btn" href="https://www.linkedin.com/in/kojitha-kodithuwakku-/">LinkedIn</a>
+            <a class="btn ghost" href="mailto:it21231582@my.sliit.lk">Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container row" style="justify-content:space-between">
+    <div>© <span id="y"></span> Prehistoric VR Museum — All rights reserved</div>
+    <div class="muted">Quick links • Privacy • Terms</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
