@@ -32,7 +32,128 @@
 
   <link rel="stylesheet" href="files/index.css">
   <script src="files/index.js" defer></script>
-</head>
+
+  <style type="text/css">
+    @media (max-width: 768px) {
+      /* --- General --- */
+      body {
+        /* Prevent font scaling on iOS */
+        -webkit-text-size-adjust: 100%; 
+      }
+
+      .container {
+        /* Reduce padding on mobile */
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      /* --- Typography --- */
+      /* Adjust font sizes for smaller screens */
+      h1 {
+        font-size: 2.2rem; /* ~35px */
+      }
+      h2 {
+        font-size: 1.8rem; /* ~29px */
+      }
+      h3 {
+        font-size: 1.3rem; /* ~21px */
+      }
+      p, .muted, .list li {
+        font-size: 1rem; /* 16px */
+      }
+
+      /* --- Navigation --- */
+      .navInner {
+        /* Stack logo and links vertically */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      .navLinks {
+        /* Allow nav links to wrap */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+      }
+      .navLinks a {
+        padding: 5px 0;
+      }
+
+      /* --- Hero --- */
+      .heroWrap img {
+        /* Override fixed w/h from HTML attributes */
+        width: 100%;
+        height: auto;
+      }
+      .heroCopy h1 {
+         /* Make hero text smaller on mobile */
+         font-size: 2rem;
+      }
+
+      /* --- All Grids (2, 3, 4 columns) --- */
+      /* Force all multi-column grids to stack into a single column */
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr !important;
+        gap: 20px; /* Add space between stacked items */
+      }
+
+      /* --- Scope Section --- */
+      #scope .grid-4 img {
+        /* The HTML has fixed 300x300. Override this. */
+        width: 100%;
+        height: auto;
+        max-width: 280px; /* Don't let it be 100% wide */
+        margin: 0 auto; /* Center it */
+        display: block;
+      }
+      #scope .thumb {
+        /* Center the "icon" text fallback */
+        text-align: center;
+      }
+      
+      /* --- Methodology --- */
+      .tech-grid {
+        /* Allow tech icons to wrap */
+        flex-wrap: wrap;
+        justify-content: center; /* Center the icons */
+        gap: 24px;
+      }
+      .tech-item {
+        flex-basis: 80px; /* Give them a consistent base size */
+      }
+      .timeline p {
+        /* Remove excess margin on smaller text */
+        margin-bottom: 1rem;
+      }
+
+      /* --- Team Section --- */
+      .person {
+         /* Center-align the team cards */
+         text-align: center;
+      }
+      .person .avatar {
+         margin-left: auto;
+         margin-right: auto; /* Center avatar */
+      }
+      .personFooter {
+        /* Center LinkedIn/Email links */
+        justify-content: center;
+      }
+
+      /* --- Footer --- */
+      .footer .container {
+        /* Stack footer content */
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+      }
+    }
+  </style>
+  </head>
 
 <body>
 
@@ -484,7 +605,7 @@
           <img class="avatar" src="images/webp/ks.webp" alt="Waynath S.P.K" loading="lazy" width="96" height="96">
           <div class="name">Waynath S.P.K</div>
           <div class="meta">IT21803420 • SLIIT</div>
-          <div class="faculty">Faculty of Computing</div>
+          <div classs="faculty">Faculty of Computing</div>
           <div class="hr"></div>
           <div class="personFooter">
             <a href="https://www.linkedin.com/in/kisurawsp/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
