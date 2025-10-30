@@ -12,16 +12,16 @@
   <meta name="keywords"
     content="PaleoVision, VR, virtual reality, AI, artificial intelligence, dinosaurs, Mesozoic, virtual museum, research project, SLIIT, Meta Quest 3, AI animal behavior, spatial awareness, AI guide, KPG extinction event, VAK learning, VR timeline">
 
-  <link rel="canonical" href="https://www.your-paleovision-domain.com/">
+  <link rel="canonical" href="https://kisurawsp.github.io/research_website/">
 
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.your-paleovision-domain.com/">
+  <meta property="og:url" content="https://kisurawsp.github.io/research_website/">
   <meta property="og:title" content="PaleoVision — AI-Driven VR Dinosaur Museum Project">
   <meta property="og:description"
     content="Explore PaleoVision, an AI-driven, interactive VR museum for the Meta Quest 3. Our research project features AI-powered animal behaviors, a spatially-aware virtual guide, a KPG extinction event simulation, and an interactive VR timeline using VAK learning models to bring the Mesozoic Era to life.">
-  <meta property="og:image" content="https://www.your-paleovision-domain.com/images/bg2.png">
+  <meta property="og:image" content="https://kisurawsp.github.io/research_website/images/bg2.png">
   <meta property="og:image:alt" content="A banner image showing a dinosaur in a lush prehistoric environment.">
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -34,11 +34,49 @@
   <script src="files/index.js" defer></script>
 
   <style type="text/css">
+    /* Base styles for the references class */
+    .references {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      /* Space between each reference */
+      padding: 0 15px;
+      /* Add some padding on the sides for desktop */
+      max-width: 800px;
+      /* Limit width for better readability on large screens */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Styling for the reference number */
+    .references span:first-child {
+      font-weight: bold;
+      margin-right: 8px;
+      /* Space between number and text */
+      vertical-align: top;
+      /* Align number to the top of the text */
+    }
+
     @media (max-width: 768px) {
+      .references {
+        font-size: 14px;
+        /* Slightly smaller font on mobile */
+        line-height: 1.5;
+        margin-bottom: 12px;
+        padding: 0 10px;
+        /* Reduce padding on mobile */
+      }
+
+      /* Adjust margin for reference number on mobile if needed */
+      .references span:first-child {
+        margin-right: 6px;
+      }
+
       /* --- General --- */
       body {
         /* Prevent font scaling on iOS */
-        -webkit-text-size-adjust: 100%; 
+        -webkit-text-size-adjust: 100%;
       }
 
       .container {
@@ -50,16 +88,25 @@
       /* --- Typography --- */
       /* Adjust font sizes for smaller screens */
       h1 {
-        font-size: 2.2rem; /* ~35px */
+        font-size: 2.2rem;
+        /* ~35px */
       }
+
       h2 {
-        font-size: 1.8rem; /* ~29px */
+        font-size: 1.8rem;
+        /* ~29px */
       }
+
       h3 {
-        font-size: 1.3rem; /* ~21px */
+        font-size: 1.3rem;
+        /* ~21px */
       }
-      p, .muted, .list li {
-        font-size: 1rem; /* 16px */
+
+      p,
+      .muted,
+      .list li {
+        font-size: 1rem;
+        /* 16px */
       }
 
       /* --- Navigation --- */
@@ -69,6 +116,7 @@
         align-items: flex-start;
         gap: 15px;
       }
+
       .navLinks {
         /* Allow nav links to wrap */
         display: flex;
@@ -76,6 +124,7 @@
         gap: 10px;
         justify-content: flex-start;
       }
+
       .navLinks a {
         padding: 5px 0;
       }
@@ -86,9 +135,10 @@
         width: 100%;
         height: auto;
       }
+
       .heroCopy h1 {
-         /* Make hero text smaller on mobile */
-         font-size: 2rem;
+        /* Make hero text smaller on mobile */
+        font-size: 2rem;
       }
 
       /* --- All Grids (2, 3, 4 columns) --- */
@@ -97,7 +147,8 @@
       .grid-3,
       .grid-4 {
         grid-template-columns: 1fr !important;
-        gap: 20px; /* Add space between stacked items */
+        gap: 20px;
+        /* Add space between stacked items */
       }
 
       /* --- Scope Section --- */
@@ -105,25 +156,32 @@
         /* The HTML has fixed 300x300. Override this. */
         width: 100%;
         height: auto;
-        max-width: 280px; /* Don't let it be 100% wide */
-        margin: 0 auto; /* Center it */
+        max-width: 280px;
+        /* Don't let it be 100% wide */
+        margin: 0 auto;
+        /* Center it */
         display: block;
       }
+
       #scope .thumb {
         /* Center the "icon" text fallback */
         text-align: center;
       }
-      
+
       /* --- Methodology --- */
       .tech-grid {
         /* Allow tech icons to wrap */
         flex-wrap: wrap;
-        justify-content: center; /* Center the icons */
+        justify-content: center;
+        /* Center the icons */
         gap: 24px;
       }
+
       .tech-item {
-        flex-basis: 80px; /* Give them a consistent base size */
+        flex-basis: 80px;
+        /* Give them a consistent base size */
       }
+
       .timeline p {
         /* Remove excess margin on smaller text */
         margin-bottom: 1rem;
@@ -131,13 +189,16 @@
 
       /* --- Team Section --- */
       .person {
-         /* Center-align the team cards */
-         text-align: center;
+        /* Center-align the team cards */
+        text-align: center;
       }
+
       .person .avatar {
-         margin-left: auto;
-         margin-right: auto; /* Center avatar */
+        margin-left: auto;
+        margin-right: auto;
+        /* Center avatar */
       }
+
       .personFooter {
         /* Center LinkedIn/Email links */
         justify-content: center;
@@ -153,7 +214,7 @@
       }
     }
   </style>
-  </head>
+</head>
 
 <body>
 
@@ -202,7 +263,8 @@
           <span><img src="images/webp/ab.webp" alt="AI Animal Behaviour" loading="lazy" width="450" height="300"></span>
         </div>
         <div class="thumb">
-          <span><img src="images/webp/Impact_event.webp" alt="KPG Extinction Event Simulation" loading="lazy" width="450" height="300"></span>
+          <span><img src="images/webp/Impact_event.webp" alt="KPG Extinction Event Simulation" loading="lazy"
+              width="450" height="300"></span>
         </div>
         <div class="thumb">
           <span><img src="images/webp/vak.webp" alt="VR Timeline" loading="lazy" width="450" height="300"></span>
@@ -218,50 +280,75 @@
 
       <h3>Literature Survey</h3>
       <p class="muted card">
-        Traditional prehistoric education—textbooks, documentaries, and static exhibits—is often passive, text-heavy,
-        and low in engagement, limiting memory retention and attention. Existing VR projects, including 360° videos and
-        animated reconstructions, provide more immersion but remain mostly static and scripted. Advances in VR and AI
-        offer interactive, immersive learning opportunities. VR allows users to explore inaccessible environments and
-        visualize complex concepts, while AI enables spatially aware guides that provide context-sensitive explanations
-        and personalized interactions. Studies in STEM and museums show immersive VR improves comprehension, retention,
-        and spatial reasoning.
+        Traditional prehistoric education—textbooks, documentaries, and static exhibits—is often passive,
+        text-heavy, and low in engagement, limiting memory retention and attention.
+        Existing VR projects, including 360° videos and animated reconstructions, provide more immersion but remain
+        mostly static and scripted.
+        Advances in VR and AI offer interactive, immersive learning opportunities.
+        Virtual reality enables users to explore inaccessible environments and visualize complex concepts [1], [2],
+        while artificial intelligence supports context-aware and adaptive learning experiences [3], [4].
+        Studies in STEM and museum contexts show that immersive VR improves comprehension, retention, and spatial
+        reasoning [1], [2].
       </p>
       <p class="muted">
         Previous AI behavior modeling using rule-based systems or fuzzy logic lacks adaptability and realism.
-        Integrating
-        machine learning with VR allows autonomous prehistoric animals to respond to environmental conditions, social
-        dynamics, and internal states. Projects like Dinosaurs and Crvena Stijena VR demonstrate interest in immersive
-        prehistoric experiences but still rely on static storytelling and limited interactivity. This project addresses
-        these gaps by creating an AI-driven, spatially aware VR environment with dynamic animal behaviors, interactive
-        activities, and memory- and attention-enhancing techniques, transforming passive exploration into active,
+        Integrating machine learning with VR allows autonomous virtual agents to respond to environmental conditions and
+        social dynamics [5]. Projects such as Dinosaurs and Crvena Stijena VR demonstrate increasing interest in
+        immersive prehistoric simulations but still rely on static storytelling and limited interactivity.
+        This project addresses these gaps by developing an AI-driven, spatially aware VR environment with dynamic animal
+        behaviors
+        , interactive activities, and adaptive learning techniques [4], [5], transforming passive exploration into
+        active,
         engaging learning.
       </p>
+      <div class="references">
+        <span>[1] J. Radianti, T. A. Majchrzak, J. Fromm, and I. Wohlgenannt, “A systematic review of immersive virtual
+          reality applications for higher education: Design elements, lessons learned, and research agenda,” Computers &
+          Education, vol. 147, p. 103778, 2020.</span>
+      </div>
+      <div class="references">
+        <span>[2] L. Jensen and F. Konradsen, “A review of the use of virtual reality head-mounted displays in education
+          and training,” Education and Information Technologies, vol. 23, no. 4, pp. 1515–1529, 2018.</span>
+      </div>
+      <div class="references">
+        <span>[3] K. MacCallum and D. Parsons, “A design-based approach to evaluating mobile learning: The ecology of
+          mobile devices in higher education,” TechTrends, vol. 63, no. 5, pp. 555–565, 2019.
+        </span>
+      </div>
+      <div class="references">
+        <span>[4] L. Boer, M. Schwaninger, and A. Hutter, “Artificial intelligence for adaptive learning in museums:
+          Opportunities and challenges,” Museum Management and Curatorship, vol. 37, no. 5, pp. 527–545, 2022.</span>
+      </div>
+      <div class="references">
+        <span>[5] Y. Li, X. Chen, C. Xu, and S. Zhao, “Virtual reality and artificial intelligence for educational
+          applications: A review,” IEEE Access, vol. 9, pp. 118809–118826, 2021.
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="kicker">Educational Content Including</div>
+      <div class="grid grid-4">
 
-      <div class="card" style="margin-top:14px">
-        <div class="kicker">Educational Content Including</div>
-        <div class="grid grid-4">
+        <div class="thumb">
+          <a href="https://youtu.be/vKYSgWGN-r0" target="_blank" rel="noopener noreferrer">
+            <img src="images/webp/guide.webp" alt="VR Guide" loading="lazy" width="300" height="300">
+          </a>
+        </div>
 
-          <div class="thumb">
-            <a href="https://youtu.be/vKYSgWGN-r0" target="_blank" rel="noopener noreferrer">
-              <img src="images/webp/guide.webp" alt="VR Guide" loading="lazy" width="300" height="300">
-            </a>
-          </div>
-
-          <div class="thumb">
-            <a href="https://youtu.be/xPM4tH8CYCU" target="_blank" rel="noopener noreferrer">
-              <img src="images/webp/Impact_event.webp" alt="KPG Extinction Event Simulation" loading="lazy" width="300" height="300">
-            </a>
-          </div>
-          <div class="thumb">
-            <a href="https://youtu.be/CCO5IvT8D3E" target="_blank" rel="noopener noreferrer">
-              <img src="images/webp/ab.webp" alt="AI Animal Behaviour" loading="lazy" width="300" height="300">
-            </a>
-          </div>
-          <div class="thumb">
-            <a href="https://youtu.be/zGGEIO5U8OU" target="_blank" rel="noopener noreferrer">
-              <img src="images/webp/tm.webp" alt="VR Timeline" loading="lazy" width="300" height="300">
-            </a>
-          </div>
+        <div class="thumb">
+          <a href="https://youtu.be/xPM4tH8CYCU" target="_blank" rel="noopener noreferrer">
+            <img src="images/webp/Impact_event.webp" alt="KPG Extinction Event Simulation" loading="lazy" width="300"
+              height="300">
+          </a>
+        </div>
+        <div class="thumb">
+          <a href="https://youtu.be/CCO5IvT8D3E" target="_blank" rel="noopener noreferrer">
+            <img src="images/webp/ab.webp" alt="AI Animal Behaviour" loading="lazy" width="300" height="300">
+          </a>
+        </div>
+        <div class="thumb">
+          <a href="https://youtu.be/zGGEIO5U8OU" target="_blank" rel="noopener noreferrer">
+            <img src="images/webp/tm.webp" alt="VR Timeline" loading="lazy" width="300" height="300">
+          </a>
         </div>
       </div>
     </div>
@@ -442,7 +529,8 @@
           <div class="doc-download">Download</div>
         </a>
 
-        <a class="doc-card" href="documents/IT21284502 - Prehistoric VR timeline.pdf" target="_blank" rel="noopener noreferrer">
+        <a class="doc-card" href="documents/IT21284502 - Prehistoric VR timeline.pdf" target="_blank"
+          rel="noopener noreferrer">
           <span class="file-icon pdf">PDF</span>
           <div class="doc-title">Project Proposal - IT21284502</div>
           <div class="doc-meta">Submitted: August 24, 2025</div>
@@ -504,7 +592,8 @@
           <div class="doc-download">Download</div>
         </a>
 
-        <a class="doc-card" href="documents/Final Report-IT21318870 J S DISSANAYKE.pdf" target="_blank" rel="noopener noreferrer">
+        <a class="doc-card" href="documents/Final Report-IT21318870 J S DISSANAYKE.pdf" target="_blank"
+          rel="noopener noreferrer">
           <span class="file-icon pdf">PDF</span>
           <div class="doc-title">Final Report - IT21318970</div>
           <div class="doc-meta">Submitted: August 24, 2025</div>
@@ -514,7 +603,8 @@
           <div class="doc-download">Download</div>
         </a>
 
-        <a class="doc-card" href="documents/Final thesis(Kodithuwakku_AK).pdf" target="_blank" rel="noopener noreferrer">
+        <a class="doc-card" href="documents/Final thesis(Kodithuwakku_AK).pdf" target="_blank"
+          rel="noopener noreferrer">
           <span class="file-icon pdf">PDF</span>
           <div class="doc-title">Final Report - IT21231582</div>
           <div class="doc-meta">Submitted: August 24, 2025</div>
@@ -577,7 +667,8 @@
       <div class="grid grid-2">
         <div class="person">
           <span class="badge supervisor">Supervisor</span>
-          <img src="images/webp/is.webp" class="avatar" alt="Mr. Aruna Ishara Gamage" loading="lazy" width="96" height="96">
+          <img src="images/webp/is.webp" class="avatar" alt="Mr. Aruna Ishara Gamage" loading="lazy" width="96"
+            height="96">
           <div class="name">Mr. Aruna Ishara Gamage</div>
           <div class="meta">Sri Lanka Institute of Information Technology</div>
           <div class="faculty">Faculty of Computing</div>
