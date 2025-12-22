@@ -1,778 +1,687 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PaleoVision — AI-Driven VR Dinosaur Museum Project</title>
+  <meta name="description" content="Explore PaleoVision, an AI-driven, interactive VR museum for the Meta Quest 3.">
 
-  <meta name="description"
-    content="Explore PaleoVision, an AI-driven, interactive VR museum for the Meta Quest 3. Our research project features AI-powered animal behaviors, a spatially-aware virtual guide, a KPG extinction event simulation, and an interactive VR timeline using VAK learning models to bring the Mesozoic Era to life.">
-  <meta name="keywords"
-    content="PaleoVision, VR, virtual reality, AI, artificial intelligence, dinosaurs, Mesozoic, virtual museum, research project, SLIIT, Meta Quest 3, AI animal behavior, spatial awareness, AI guide, KPG extinction event, VAK learning, VR timeline">
-
-  <link rel="canonical" href="https://kisurawsp.github.io/research_website/">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://kisurawsp.github.io/research_website/">
-  <meta property="og:title" content="PaleoVision — AI-Driven VR Dinosaur Museum Project">
-  <meta property="og:description"
-    content="Explore PaleoVision, an AI-driven, interactive VR museum for the Meta Quest 3. Our research project features AI-powered animal behaviors, a spatially-aware virtual guide, a KPG extinction event simulation, and an interactive VR timeline using VAK learning models to bring the Mesozoic Era to life.">
-  <meta property="og:image" content="https://kisurawsp.github.io/research_website/images/bg2.png">
-  <meta property="og:image:alt" content="A banner image showing a dinosaur in a lush prehistoric environment.">
-
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
-  <link rel="icon" type="image/png" href="images/logo.png">
 
-  <link rel="stylesheet" href="files/index.css">
-  <script src="files/index.js" defer></script>
-
-  <style type="text/css">
-    /* Base styles for the references class */
-    .references {
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      /* Space between each reference */
-      padding: 0 15px;
-      /* Add some padding on the sides for desktop */
-      max-width: 800px;
-      /* Limit width for better readability on large screens */
-      margin-left: auto;
-      margin-right: auto;
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cinzel"', 'serif'], // Switched to Cinzel for that Jurassic look
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          colors: {
+            stone: {
+              50: '#fafaf9',
+              100: '#f5f5f4',
+              200: '#e7e5e4',
+              300: '#d6d3d1',
+              400: '#a8a29e',
+              500: '#78716c',
+              600: '#57534e',
+              700: '#44403c',
+              800: '#292524',
+              900: '#1c1917',
+              950: '#0c0a09',
+            },
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706', // Classic Amber
+              700: '#b45309',
+            },
+            emerald: {
+              800: '#064e3b',
+              900: '#022c22',
+            }
+          },
+        },
+      },
     }
+  </script>
+  <style type="text/tailwindcss">
+    @layer components {
+            .glass-nav {
+                @apply sticky top-0 z-50 w-full backdrop-blur-md bg-stone-900/90 border-b border-stone-800 shadow-lg transition-all duration-300;
+            }
+            .card {
+                @apply bg-white rounded-xl shadow-sm border border-stone-200 p-6 transition-transform duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-amber-500/50;
+            }
+            .btn-primary {
+                @apply inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold tracking-wider rounded-lg shadow-sm text-stone-900 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors uppercase font-serif;
+            }
+            .section-title {
+                @apply text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-8 relative inline-block after:content-[''] after:absolute after:-bottom-3 after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-amber-600 after:rounded-full tracking-wide;
+            }
+            .timeline-item {
+                @apply relative pl-8 pb-8 border-l-2 border-stone-200 last:border-0;
+            }
+            .timeline-dot {
+                @apply absolute top-0 -left-[9px] w-4 h-4 rounded-full bg-amber-500 border-2 border-white shadow-sm;
+            }
+        }
+        
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dfae39' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
 
-    /* Styling for the reference number */
-    .references span:first-child {
-      font-weight: bold;
-      margin-right: 8px;
-      /* Space between number and text */
-      vertical-align: top;
-      /* Align number to the top of the text */
-    }
-
-    @media (max-width: 768px) {
-      .references {
-        font-size: 14px;
-        /* Slightly smaller font on mobile */
-        line-height: 1.5;
-        margin-bottom: 12px;
-        padding: 0 10px;
-        /* Reduce padding on mobile */
-      }
-
-      /* Adjust margin for reference number on mobile if needed */
-      .references span:first-child {
-        margin-right: 6px;
-      }
-
-      /* --- General --- */
-      body {
-        /* Prevent font scaling on iOS */
-        -webkit-text-size-adjust: 100%;
-      }
-
-      .container {
-        /* Reduce padding on mobile */
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      /* --- Typography --- */
-      /* Adjust font sizes for smaller screens */
-      h1 {
-        font-size: 2.2rem;
-        /* ~35px */
-      }
-
-      h2 {
-        font-size: 1.8rem;
-        /* ~29px */
-      }
-
-      h3 {
-        font-size: 1.3rem;
-        /* ~21px */
-      }
-
-      p,
-      .muted,
-      .list li {
-        font-size: 1rem;
-        /* 16px */
-      }
-
-      /* --- Navigation --- */
-      .navInner {
-        /* Stack logo and links vertically */
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-      }
-
-      .navLinks {
-        /* Allow nav links to wrap */
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: flex-start;
-      }
-
-      .navLinks a {
-        padding: 5px 0;
-      }
-
-      /* --- Hero --- */
-      .heroWrap img {
-        /* Override fixed w/h from HTML attributes */
-        width: 100%;
-        height: auto;
-      }
-
-      .heroCopy h1 {
-        /* Make hero text smaller on mobile */
-        font-size: 2rem;
-      }
-
-      /* --- All Grids (2, 3, 4 columns) --- */
-      /* Force all multi-column grids to stack into a single column */
-      .grid-2,
-      .grid-3,
-      .grid-4 {
-        grid-template-columns: 1fr !important;
-        gap: 20px;
-        /* Add space between stacked items */
-      }
-
-      /* --- Scope Section --- */
-      #scope .grid-4 img {
-        /* The HTML has fixed 300x300. Override this. */
-        width: 100%;
-        height: auto;
-        max-width: 280px;
-        /* Don't let it be 100% wide */
-        margin: 0 auto;
-        /* Center it */
-        display: block;
-      }
-
-      #scope .thumb {
-        /* Center the "icon" text fallback */
-        text-align: center;
-      }
-
-      /* --- Methodology --- */
-      .tech-grid {
-        /* Allow tech icons to wrap */
-        flex-wrap: wrap;
-        justify-content: center;
-        /* Center the icons */
-        gap: 24px;
-      }
-
-      .tech-item {
-        flex-basis: 80px;
-        /* Give them a consistent base size */
-      }
-
-      .timeline p {
-        /* Remove excess margin on smaller text */
-        margin-bottom: 1rem;
-      }
-
-      /* --- Team Section --- */
-      .person {
-        /* Center-align the team cards */
-        text-align: center;
-      }
-
-      .person .avatar {
-        margin-left: auto;
-        margin-right: auto;
-        /* Center avatar */
-      }
-
-      .personFooter {
-        /* Center LinkedIn/Email links */
-        justify-content: center;
-      }
-
-      /* --- Footer --- */
-      .footer .container {
-        /* Stack footer content */
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 12px;
-      }
-    }
-  </style>
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body>
+<body class="bg-stone-50 text-stone-800 font-sans selection:bg-amber-200 selection:text-stone-900">
 
-  <header class="nav">
-    <div class="container navInner">
-      <div class="brand"><span class="dot"></span> PaleoVision</div>
-      <nav class="navLinks">
-        <a href="#about">About</a>
-        <a href="#scope">Scope</a>
-        <a href="#gap">Research</a>
-        <a href="#method">Methodology</a>
-        <a href="#docs">Docs</a>
-        <a href="#team">Team</a>
-      </nav>
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-20 items-center">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <div
+            class="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center rotate-3 mr-3 shadow-lg shadow-amber-500/20">
+            <i data-lucide="bone" class="w-6 h-6 text-stone-900"></i>
+          </div>
+          <span class="font-serif font-bold text-xl md:text-2xl tracking-widest text-white">PALEO<span
+              class="text-amber-500">VISION</span></span>
+        </div>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-10 items-center">
+          <a href="#about"
+            class="text-stone-300 hover:text-amber-500 transition-colors font-medium text-sm tracking-widest uppercase">About</a>
+          <a href="#scope"
+            class="text-stone-300 hover:text-amber-500 transition-colors font-medium text-sm tracking-widest uppercase">Scope</a>
+          <a href="#methodology"
+            class="text-stone-300 hover:text-amber-500 transition-colors font-medium text-sm tracking-widest uppercase">Methodology</a>
+          <a href="#resources"
+            class="text-stone-300 hover:text-amber-500 transition-colors font-medium text-sm tracking-widest uppercase">Docs</a>
+          <a href="#team"
+            class="text-stone-300 hover:text-amber-500 transition-colors font-medium text-sm tracking-widest uppercase">Team</a>
+          <a href="https://github.com/KisuraWSP/research_website" target="_blank"
+            class="text-stone-400 hover:text-white transition-colors">
+            <i data-lucide="github" class="w-5 h-5"></i>
+          </a>
+        </div>
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" class="text-stone-300 hover:text-white focus:outline-none">
+            <i data-lucide="menu" class="w-7 h-7"></i>
+          </button>
+        </div>
+      </div>
     </div>
-  </header>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-900 border-t border-stone-800">
+      <div class="px-4 pt-4 pb-6 space-y-2">
+        <a href="#about"
+          class="block px-3 py-2 rounded-md text-base font-medium text-stone-300 hover:text-amber-500 hover:bg-stone-800">About</a>
+        <a href="#scope"
+          class="block px-3 py-2 rounded-md text-base font-medium text-stone-300 hover:text-amber-500 hover:bg-stone-800">Scope</a>
+        <a href="#methodology"
+          class="block px-3 py-2 rounded-md text-base font-medium text-stone-300 hover:text-amber-500 hover:bg-stone-800">Methodology</a>
+        <a href="#resources"
+          class="block px-3 py-2 rounded-md text-base font-medium text-stone-300 hover:text-amber-500 hover:bg-stone-800">Docs</a>
+        <a href="#team"
+          class="block px-3 py-2 rounded-md text-base font-medium text-stone-300 hover:text-amber-500 hover:bg-stone-800">Team</a>
+      </div>
+    </div>
+  </nav>
 
-  <section class="container hero" id="hero">
-    <div class="heroWrap">
-      <img src="images/webp/bg2.webp" alt="Banner" fetchpriority="high" width="1100" height="619">
-      <div class="heroCopy">
-        <h1>Experience the Mesozoic Era Like Never Before</h1>
-        <p class="muted" style="color:#E9E4DB;font-size:12px">
-          An interactive VR museum with AI-driven guides, living animal behavior, and timeline quests.
+  <!-- Hero Section -->
+  <section
+    class="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-stone-900 border-b-8 border-amber-600/20">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img src="images/webp/bg2.webp" alt="Background" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/60 to-transparent mix-blend-multiply">
+      </div>
+      <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 text-center sm:px-6 lg:px-8 mt-[-3rem]">
+      <div
+        class="inline-flex items-center space-x-2 py-2 px-4 rounded border border-amber-500/40 text-amber-500 text-sm font-bold tracking-[0.2em] uppercase mb-8 backdrop-blur-md bg-black/40">
+        <span>Research Project 2025</span>
+      </div>
+
+      <h1
+        class="text-4xl sm:text-6xl md:text-8xl font-serif font-bold text-stone-100 leading-[0.9] mb-8 drop-shadow-2xl">
+        THE MESOZOIC<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-br from-amber-300 to-amber-600">REIMAGINED</span>
+      </h1>
+
+      <p
+        class="mt-6 text-lg sm:text-xl text-stone-300 max-w-2xl mx-auto font-light leading-relaxed mb-12 border-l-4 border-amber-600 pl-6 text-left bg-black/20 p-4 rounded-r-lg backdrop-blur-sm">
+        Enter PaleoVision. An AI-driven interactive VR museum where dinosaurs live, react, and guide you through the
+        extinction event.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
+        <a href="#about"
+          class="btn-primary w-full sm:w-auto shadow-lg shadow-amber-900/50 hover:shadow-amber-500/20 transform hover:-translate-y-1 transition-all">
+          Start Expedition
+        </a>
+        <a href="#resources"
+          class="group px-8 py-3 border border-stone-400/30 text-stone-200 rounded-lg hover:bg-white/10 hover:border-white/50 transition-all w-full sm:w-auto flex items-center justify-center font-bold tracking-wider uppercase backdrop-blur-sm font-serif">
+          Research Data
+          <i data-lucide="file-text" class="ml-2 w-4 h-4 group-hover:text-amber-500 transition-colors"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+      <a href="#about"
+        class="text-stone-400 hover:text-amber-500 transition-colors flex flex-col items-center animate-bounce">
+        <span class="text-[10px] uppercase tracking-widest mb-2 font-bold">Discover</span>
+        <i data-lucide="chevron-down" class="w-6 h-6"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Project Description (Interactive Cards) -->
+  <section id="about" class="py-24 bg-stone-50 hero-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-20">
+        <h2 class="section-title">Expedition Overview</h2>
+        <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed">
+          A multi-disciplinary system integrating VR, AI, and behavioral simulation. <br>
+          <span class="text-amber-700 font-bold italic">Click any feature to watch the demo.</span>
         </p>
       </div>
-    </div>
-  </section>
 
-  <section class="section" id="about">
-    <div class="container" id="aboutWrap">
-      <h2>DESCRIPTION</h2>
-      <div class="fossil"></div>
-      <p class="muted">
-        Our research project is a multi-disciplinary system that integrates virtual reality, artificial intelligence,
-        behavioral simulation, VR timeline and Extinction Event Simulation into a single ecosystem. Its centerpiece is
-        an immersive PaleoVision experience designed for the Meta Quest 3 headset, supported by AI-driven interactions,
-        dynamic animal behavior, and interactive educational features.
-      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Video Link 1 -->
+        <a href="https://youtu.be/vKYSgWGN-r0" target="_blank"
+          class="card group cursor-pointer hover:ring-2 hover:ring-amber-500/50">
+          <div class="relative h-48 mb-6 overflow-hidden rounded-lg bg-stone-200">
+            <img src="images/webp/gd.webp" alt="AI Guide"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-amber-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
+              <i data-lucide="play" class="w-5 h-5 text-stone-900 fill-current"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-serif text-stone-900 mb-2">AI Virtual Guide</h3>
+          <p class="text-stone-600 text-sm">Context-aware guide adjusting to your location and attention.</p>
+        </a>
 
-      <div class="grid grid-4">
-        <div class="thumb">
-          <span><img src="images/webp/gd.webp" alt="AI Virtual Guide" loading="lazy" width="450" height="300"></span>
-        </div>
-        <div class="thumb">
-          <span><img src="images/webp/ab.webp" alt="AI Animal Behaviour" loading="lazy" width="450" height="300"></span>
-        </div>
-        <div class="thumb">
-          <span><img src="images/webp/Impact_event.webp" alt="KPG Extinction Event Simulation" loading="lazy"
-              width="450" height="300"></span>
-        </div>
-        <div class="thumb">
-          <span><img src="images/webp/vak.webp" alt="VR Timeline" loading="lazy" width="450" height="300"></span>
-        </div>
-      </div>
-    </div>
-  </section>
+        <!-- Video Link 2 -->
+        <a href="https://youtu.be/CCO5IvT8D3E" target="_blank"
+          class="card group cursor-pointer hover:ring-2 hover:ring-amber-500/50">
+          <div class="relative h-48 mb-6 overflow-hidden rounded-lg bg-stone-200">
+            <img src="images/webp/ab.webp" alt="Animal Behavior"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-amber-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
+              <i data-lucide="play" class="w-5 h-5 text-stone-900 fill-current"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-serif text-stone-900 mb-2">Living Ecosystems</h3>
+          <p class="text-stone-600 text-sm">Dynamic herds and predators powered by ML-Agents.</p>
+        </a>
 
-  <section class="section" id="scope">
-    <div class="container">
-      <h2>PROJECT SCOPE</h2>
-      <div class="fossil"></div>
+        <!-- Video Link 3 -->
+        <a href="https://youtu.be/xPM4tH8CYCU" target="_blank"
+          class="card group cursor-pointer hover:ring-2 hover:ring-amber-500/50">
+          <div class="relative h-48 mb-6 overflow-hidden rounded-lg bg-stone-200">
+            <img src="images/webp/Impact_event.webp" alt="Extinction Event"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-amber-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
+              <i data-lucide="play" class="w-5 h-5 text-stone-900 fill-current"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-serif text-stone-900 mb-2">K-Pg Extinction</h3>
+          <p class="text-stone-600 text-sm">Witness the asteroid impact in immersive VR.</p>
+        </a>
 
-      <h3>Literature Survey</h3>
-      <p class="muted card">
-        Traditional prehistoric education—textbooks, documentaries, and static exhibits—is often passive,
-        text-heavy, and low in engagement, limiting memory retention and attention.
-        Existing VR projects, including 360° videos and animated reconstructions, provide more immersion but remain
-        mostly static and scripted.
-        Advances in VR and AI offer interactive, immersive learning opportunities.
-        Virtual reality enables users to explore inaccessible environments and visualize complex concepts [1], [2],
-        while artificial intelligence supports context-aware and adaptive learning experiences [3], [4].
-        Studies in STEM and museum contexts show that immersive VR improves comprehension, retention, and spatial
-        reasoning [1], [2].
-      </p>
-      <p class="muted">
-        Previous AI behavior modeling using rule-based systems or fuzzy logic lacks adaptability and realism.
-        Integrating machine learning with VR allows autonomous virtual agents to respond to environmental conditions and
-        social dynamics [5]. Projects such as Dinosaurs and Crvena Stijena VR demonstrate increasing interest in
-        immersive prehistoric simulations but still rely on static storytelling and limited interactivity.
-        This project addresses these gaps by developing an AI-driven, spatially aware VR environment with dynamic animal
-        behaviors
-        , interactive activities, and adaptive learning techniques [4], [5], transforming passive exploration into
-        active,
-        engaging learning.
-      </p>
-      <div class="references">
-        <span>[1] J. Radianti, T. A. Majchrzak, J. Fromm, and I. Wohlgenannt, “A systematic review of immersive virtual
-          reality applications for higher education: Design elements, lessons learned, and research agenda,” Computers &
-          Education, vol. 147, p. 103778, 2020.</span>
-      </div>
-      <div class="references">
-        <span>[2] L. Jensen and F. Konradsen, “A review of the use of virtual reality head-mounted displays in education
-          and training,” Education and Information Technologies, vol. 23, no. 4, pp. 1515–1529, 2018.</span>
-      </div>
-      <div class="references">
-        <span>[3] K. MacCallum and D. Parsons, “A design-based approach to evaluating mobile learning: The ecology of
-          mobile devices in higher education,” TechTrends, vol. 63, no. 5, pp. 555–565, 2019.
-        </span>
-      </div>
-      <div class="references">
-        <span>[4] L. Boer, M. Schwaninger, and A. Hutter, “Artificial intelligence for adaptive learning in museums:
-          Opportunities and challenges,” Museum Management and Curatorship, vol. 37, no. 5, pp. 527–545, 2022.</span>
-      </div>
-      <div class="references">
-        <span>[5] Y. Li, X. Chen, C. Xu, and S. Zhao, “Virtual reality and artificial intelligence for educational
-          applications: A review,” IEEE Access, vol. 9, pp. 118809–118826, 2021.
-      </div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <div class="kicker">Educational Content Including</div>
-      <div class="grid grid-4">
-
-        <div class="thumb">
-          <a href="https://youtu.be/vKYSgWGN-r0" target="_blank" rel="noopener noreferrer">
-            <img src="images/webp/guide.webp" alt="VR Guide" loading="lazy" width="300" height="300">
-          </a>
-        </div>
-
-        <div class="thumb">
-          <a href="https://youtu.be/xPM4tH8CYCU" target="_blank" rel="noopener noreferrer">
-            <img src="images/webp/Impact_event.webp" alt="KPG Extinction Event Simulation" loading="lazy" width="300"
-              height="300">
-          </a>
-        </div>
-        <div class="thumb">
-          <a href="https://youtu.be/CCO5IvT8D3E" target="_blank" rel="noopener noreferrer">
-            <img src="images/webp/ab.webp" alt="AI Animal Behaviour" loading="lazy" width="300" height="300">
-          </a>
-        </div>
-        <div class="thumb">
-          <a href="https://youtu.be/zGGEIO5U8OU" target="_blank" rel="noopener noreferrer">
-            <img src="images/webp/tm.webp" alt="VR Timeline" loading="lazy" width="300" height="300">
-          </a>
-        </div>
+        <!-- Video Link 4 -->
+        <a href="https://youtu.be/zGGEIO5U8OU" target="_blank"
+          class="card group cursor-pointer hover:ring-2 hover:ring-amber-500/50">
+          <div class="relative h-48 mb-6 overflow-hidden rounded-lg bg-stone-200">
+            <img src="images/webp/vak.webp" alt="Timeline"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-amber-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
+              <i data-lucide="play" class="w-5 h-5 text-stone-900 fill-current"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-serif text-stone-900 mb-2">VR Timeline</h3>
+          <p class="text-stone-600 text-sm">Interactive history utilizing VAK learning models.</p>
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="section" id="gap">
-    <div class="container">
-      <h2>RESEARCH GAP</h2>
-      <div class="fossil"></div>
-
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>AI-Driven Prehistoric Animal Interactions in VR</h3>
-          <p class="muted">Existing VR exhibits rarely include scalable and believable AI animals. We propose
-            herd/predator logic with scene-aware behaviors.</p>
-        </div>
-        <div class="card">
-          <h3>Enhancing Memory & Attention in VR Learning</h3>
-          <p class="muted">We add timeline quests, spatial anchors, and spaced-recall cues to improve focus and learning
-            outcomes.</p>
-        </div>
-        <div class="card">
-          <h3>Beyond Static Storytelling in Prehistoric VR</h3>
-          <p class="muted">From passive viewing to dynamic scenes: reactive narration and hands-on interactions.</p>
-        </div>
-        <div class="card">
-          <h3>Context-Aware AI Guides</h3>
-          <p class="muted">Guides read the room: surfaces, exhibit proximity, and player location for natural
-            interactions.</p>
-        </div>
+  <!-- Methodology & Milestones -->
+  <section id="methodology" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Methodology & Milestones</h2>
       </div>
 
-      <h2 style="margin-top:18px">RESEARCH PROBLEM & SOLUTION</h2>
-      <div class="fossil"></div>
-
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Research Problem</h3>
-          <p class="muted">Low engagement/retention with static VR exhibits; limited interactivity and adaptive
-            guidance.</p>
-        </div>
-        <div class="card">
-          <h3>Proposed Solution</h3>
-          <p class="muted">An AI-guided, scene-aware VR museum featuring dynamic animal simulations, a playable
-            timeline, and memory enhancers.</p>
-        </div>
-      </div>
-
-      <h3 style="margin-top:16px">Research Objectives</h3>
-      <ul class="list">
-        <li>Design a context-aware VR guide with spatial triggers.</li>
-        <li>Implement animal behavior (herding, predator-prey) with ML-Agents.</li>
-        <li>Build a playable prehistoric timeline with narration.</li>
-        <li>Evaluate learning/retention via user studies.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" id="method">
-    <div class="container">
-      <h2>METHODOLOGY</h2>
-      <div class="fossil"></div>
-
-      <h3>1. Prototype & Scene Setup</h3>
-      <p class="muted">Environment blockout, interaction patterns, and baseline navigation (teleport + direct
-        locomotion).</p>
-
-      <h3>2. AI & Simulation</h3>
-      <p class="muted">Herding, predator detection, feeding interactions, and narrator triggers linked to exhibits.</p>
-
-      <h3>3. Evaluation</h3>
-      <p class="muted">Usability testing, knowledge retention measures, and iteration.</p>
-
-      <div class="grid grid-2" style="margin-top:10px">
-        <div class="thumb">
-          <img src="images/webp/1.webp" alt="Testing Group 1" loading="lazy" width="300" height="300">
-        </div>
-        <div class="thumb">
-          <img src="images/webp/2.webp" alt="Testing Group 2" loading="lazy" width="300" height="300">
-        </div>
-      </div>
-
-      <h3 style="margin-top:18px">Milestones</h3>
-      <div class="card" style="padding:24px">
-        <h4 style="text-align:center;color:var(--fern)">Timelines in Brief</h4>
-        <ul class="timeline">
-          <li>
-            <strong>Project Proposal — February 2025</strong>
-            <p>A Project Proposal is presented to potential sponsors or clients to receive funding or get your project
-              approved.</p>
-          </li>
-          <li>
-            <strong>Progress Presentation I — August 2025</strong>
-            <p>Reviews the 50% completion status of the project, revealing any gaps or inconsistencies in the design or
-              requirements.</p>
-          </li>
-          <li>
-            <strong>Research Paper — March 2025</strong>
-            <p>Describes contributions to existing knowledge, giving due recognition to all referenced work in making
-              new knowledge.</p>
-          </li>
-          <li>
-            <strong>Progress Presentation II — August 2025</strong>
-            <p>Reviews the 90% completion status and demonstration of the project.</p>
-          </li>
-          <li>
-            <strong>Website Assessment — October 2025</strong>
-            <p>The website helps promote our research project and reveals all details related to the project.</p>
-          </li>
-          <li>
-            <strong>Logbook — Ongoing</strong>
-            <p>The status of the project is validated through the Logbook.</p>
-          </li>
-          <li>
-            <strong>Final Thesis Document — October 2025</strong>
-            <p>Evaluates the completed project over the year and includes both individual and group reports.</p>
-          </li>
-          <li>
-            <strong>Final Presentation & Viva — October 2025</strong>
-            <p>Conducted individually to assess each member’s contribution to the project.</p>
-          </li>
-        </ul>
-      </div>
-
-      <h3 style="margin-top:32px; text-align: center;">Technologies We Use</h3>
-      <div class="tech-grid">
-        <div class="tech-item">
-          <img src="images/webp/meta.webp" alt="Meta Logo" loading="lazy" height="40">
-          <span class="tech-name">Meta</span>
-        </div>
-        <div class="tech-item">
-          <img src="images/webp/quest3.webp" alt="Quest 3 Logo" loading="lazy" height="40">
-          <span class="tech-name">Quest 3</span>
-        </div>
-        <div class="tech-item">
-          <img src="images/webp/un.webp" alt="Unity Logo" loading="lazy" height="40">
-          <span class="tech-name">Unity</span>
-        </div>
-        <div class="tech-item">
-          <img src="images/webp/ml_agent.webp" alt="Unity ML-Agents Logo" loading="lazy" height="40">
-          <span class="tech-name">ML-Agents</span>
-        </div>
-        <div class="tech-item">
-          <img src="images/webp/py.webp" alt="Python Logo" loading="lazy" height="40">
-          <span class="tech-name">Python</span>
-        </div>
-        <div class="tech-item">
-          <img src="images/webp/vscode.webp" alt="VSCode Logo" loading="lazy" height="40">
-          <span class="tech-name">VS Code</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="docs">
-    <div class="container">
-      <h2>PROJECT RESOURCES</h2>
-      <div class="fossil"></div>
-
-      <h3 class="resource-heading">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"
-          aria-hidden="true">
-          <path
-            d="M6 2C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2H6M13 3.5L18.5 9H13V3.5M8 11H16V13H8V11M8 15H16V17H8V15Z">
-          </path>
-        </svg>
-        Documents
-      </h3>
-
-      <div class="grid grid-3">
-        <a class="doc-card" href="documents/R25-056_TAF.pdf" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Topic Assessment Form</div>
-          <div class="doc-meta">Submitted: June 25, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge group">Group</span>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <!-- Left: Methodology Steps -->
+        <div>
+          <h3 class="text-2xl font-serif font-bold text-stone-800 mb-8 border-l-4 border-amber-500 pl-4">Development
+            Phases</h3>
+          <div class="space-y-8">
+            <div class="flex gap-6">
+              <div
+                class="flex-shrink-0 w-12 h-12 bg-stone-800 text-amber-500 rounded-lg flex items-center justify-center font-bold text-xl font-serif">
+                I</div>
+              <div>
+                <h4 class="text-lg font-bold text-stone-900">Prototype & Scene Setup</h4>
+                <p class="text-stone-600 text-sm mt-1">Environment blockout, interaction patterns, and baseline
+                  navigation using Unity.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div
+                class="flex-shrink-0 w-12 h-12 bg-amber-600 text-stone-900 rounded-lg flex items-center justify-center font-bold text-xl font-serif">
+                II</div>
+              <div>
+                <h4 class="text-lg font-bold text-stone-900">AI Simulation</h4>
+                <p class="text-stone-600 text-sm mt-1">Predator detection, feeding interactions, and herding logic via
+                  ML-Agents.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div
+                class="flex-shrink-0 w-12 h-12 bg-stone-800 text-amber-500 rounded-lg flex items-center justify-center font-bold text-xl font-serif">
+                III</div>
+              <div>
+                <h4 class="text-lg font-bold text-stone-900">Evaluation</h4>
+                <p class="text-stone-600 text-sm mt-1">Usability testing and knowledge retention measures.</p>
+              </div>
+            </div>
           </div>
-          <div class="doc-download">Download</div>
-        </a>
 
-        <a class="doc-card" href="documents/IT21284502 - Prehistoric VR timeline.pdf" target="_blank"
-          rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Project Proposal - IT21284502</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/Research Project Proposal Report- IT21803420.pdf" target="_blank"
-          rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Project Proposal - IT21803420</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/IT21318870 Research_Proposal_Report (1).pdf" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Project Proposal - IT21318970</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/IT21231582 KodithuwakkuAK.pdf" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Project Proposal - IT21231582</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/IT21284502 - Final Report.pdf" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Final Report - IT21284502</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/IT21803420-R25-056-Final_Report.pdf" target="_blank"
-          rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Final Report - IT21803420</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/Final Report-IT21318870 J S DISSANAYKE.pdf" target="_blank"
-          rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Final Report - IT21318970</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/IT21231582 Kodithuwakku_AK .pdf" target="_blank"
-          rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Final Report - IT21231582</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/IT21231582 Kodithuwakku_AK .pdf" target="_blank"
-          rel="noopener noreferrer">
-          <span class="file-icon pdf">PDF</span>
-          <div class="doc-title">Final Report - IT21231582</div>
-          <div class="doc-meta">Submitted: August 24, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge individual">Individual</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-      </div>
-
-      <h3 class="resource-heading" style="margin-top: 32px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"
-          aria-hidden="true">
-          <path
-            d="M20 3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3M20 19H4V5H20V19M10 6H8V8H10V6M16 6H12V8H16V6M10 10H8V12H10V10M13 10H11V12H13V10M16 10H14V12H16V10M10 14H8V16H10V14M16 14H12V16H16V14Z">
-          </path>
-        </svg>
-        Presentations
-      </h3>
-
-      <div class="grid grid-3">
-        <a class="doc-card" href="" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon ppt">PPT</span>
-          <div class="doc-title">Progress Presentation I</div>
-          <div class="doc-meta">Submitted: August 06, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge group">Group</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon ppt">PPT</span>
-          <div class="doc-title">Progress Presentation II</div>
-          <div class="doc-meta">Submitted: September 21, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge group">Group</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-
-        <a class="doc-card" href="documents/Final Presentation r25-056.pptx" target="_blank" rel="noopener noreferrer">
-          <span class="file-icon ppt">PPT</span>
-          <div class="doc-title">Final Presentation</div>
-          <div class="doc-meta">Submitted: October 29, 2025</div>
-          <div class="doc-owner">
-            Owner: <span class="owner-badge group">Group</span>
-          </div>
-          <div class="doc-download">Download</div>
-        </a>
-      </div>
-
-    </div>
-  </section>
-  <section class="section" id="team">
-    <div class="container">
-      <h2>LEARN MORE ABOUT US</h2>
-      <div class="fossil"></div>
-
-      <div class="grid grid-2">
-        <div class="person">
-          <span class="badge supervisor">Supervisor</span>
-          <img src="images/webp/is.webp" class="avatar" alt="Mr. Aruna Ishara Gamage" loading="lazy" width="96"
-            height="96">
-          <div class="name">Mr. Aruna Ishara Gamage</div>
-          <div class="meta">Sri Lanka Institute of Information Technology</div>
-          <div class="faculty">Faculty of Computing</div>
-          <div class="hr"></div>
-          <div class="personFooter">
-            <a href="https://www.linkedin.com/in/aruna-ishara-gamage-145a91138/" target="_blank"
-              rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:ishara.g@sliit.lk">E-Mail</a>
+          <!-- Tech Stack -->
+          <div class="mt-12 p-6 bg-stone-50 rounded-xl border border-stone-200">
+            <h4 class="text-sm font-bold text-stone-500 uppercase tracking-widest mb-6 text-center">Powered By</h4>
+            <div
+              class="flex flex-wrap justify-center gap-8 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+              <img src="images/webp/meta.webp" class="h-8 object-contain" alt="Meta">
+              <img src="images/webp/quest3.webp" class="h-8 object-contain" alt="Quest 3">
+              <img src="images/webp/un.webp" class="h-8 object-contain" alt="Unity">
+              <img src="images/webp/ml_agent.webp" class="h-8 object-contain" alt="ML Agents">
+              <img src="images/webp/py.webp" class="h-8 object-contain" alt="Python">
+            </div>
           </div>
         </div>
 
-        <div class="person">
-          <span class="badge cosupervisor">Co-Supervisor</span>
-          <img src="images/webp/ns.webp" class="avatar" alt="Mr. Nushkan Nismi" loading="lazy" width="96" height="96">
-          <div class="name">Mr. Nushkan Nismi</div>
-          <div class="meta">Sri Lanka Institute of Information Technology</div>
-          <div class="faculty">Faculty of Computing</div>
-          <div class="hr"></div>
-          <div class="personFooter">
-            <a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:nushkan.n@sliit.lk">E-Mail</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-2" style="margin-top:12px">
-        <div class="person">
-          <span class="badge leader">Group Leader</span>
-          <img class="avatar" src="images/webp/il.webp" alt="M M Ilangameera" loading="lazy" width="96" height="96">
-          <div class="name">M M Ilangamveera</div>
-          <div class="meta">IT21284502 • SLIIT</div>
-          <div class="faculty">Faculty of Computing</div>
-          <div class="hr"></div>
-          <div class="personFooter">
-            <a href="https://www.linkedin.com/in/m-madhara/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:it21284502@my.sliit.lk">E-Mail</a>
-          </div>
-        </div>
-
-        <div class="person">
-          <span class="badge member">Group Member</span>
-          <img class="avatar" src="images/webp/ks.webp" alt="Waynath S.P.K" loading="lazy" width="96" height="96">
-          <div class="name">Waynath S.P.K</div>
-          <div class="meta">IT21803420 • SLIIT</div>
-          <div classs="faculty">Faculty of Computing</div>
-          <div class="hr"></div>
-          <div class="personFooter">
-            <a href="https://www.linkedin.com/in/kisurawsp/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:it21803420@my.sliit.lk">E-Mail</a>
-          </div>
-        </div>
-
-        <div class="person">
-          <span class="badge member">Group Member</span>
-          <img class="avatar" src="images/webp/js.webp" alt="Dissanayake J S" loading="lazy" width="96" height="96">
-          <div class="name">Dissanayake J S</div>
-          <div class="meta">IT21318970 • SLIIT</div>
-          <div class="faculty">Faculty of Computing</div>
-          <div class="hr"></div>
-          <div class="personFooter">
-            <a href="https://www.linkedin.com/in/januk-dissanayake/" target="_blank"
-              rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:it21318970@my.sliit.lk">E-Mail</a>
-          </div>
-        </div>
-
-        <div class="person">
-          <span class="badge member">Group Member</span>
-          <img class="avatar" src="images/webp/kw.webp" alt="Kodithuwakku A.K" loading="lazy" width="96" height="96">
-          <div class="name">Kodithuwakku A.K</div>
-          <div class="meta">IT21231582 • SLIIT</div>
-          <div class="faculty">Faculty of Computing</div>
-          <div class="hr"></div>
-          <div class="personFooter">
-            <a href="https://www.linkedin.com/in/kojitha-kodithuwakku-/" target="_blank"
-              rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:it21231582@my.sliit.lk">E-Mail</a>
+        <!-- Right: Timeline -->
+        <div class="bg-stone-50 p-8 rounded-2xl border border-stone-200 shadow-inner">
+          <h3 class="text-2xl font-serif font-bold text-stone-800 mb-8 border-l-4 border-amber-500 pl-4">Project Roadmap
+          </h3>
+          <div class="space-y-0">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <h4 class="font-bold text-stone-900">Project Proposal</h4>
+              <span class="text-xs font-bold text-amber-600 uppercase tracking-wide">February 2025</span>
+              <p class="text-sm text-stone-600 mt-2">Initial proposal presentation to sponsors and approval board.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <h4 class="font-bold text-stone-900">Research Paper</h4>
+              <span class="text-xs font-bold text-amber-600 uppercase tracking-wide">March 2025</span>
+              <p class="text-sm text-stone-600 mt-2">Documentation of contributions and existing knowledge review.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <h4 class="font-bold text-stone-900">Progress Presentation I</h4>
+              <span class="text-xs font-bold text-amber-600 uppercase tracking-wide">August 2025</span>
+              <p class="text-sm text-stone-600 mt-2">50% completion status review and gap analysis.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <h4 class="font-bold text-stone-900">Progress Presentation II</h4>
+              <span class="text-xs font-bold text-amber-600 uppercase tracking-wide">August 2025</span>
+              <p class="text-sm text-stone-600 mt-2">90% completion status and prototype demonstration.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <h4 class="font-bold text-stone-900">Final Thesis & Viva</h4>
+              <span class="text-xs font-bold text-amber-600 uppercase tracking-wide">October 2025</span>
+              <p class="text-sm text-stone-600 mt-2">Final evaluation and individual defense.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <div>© <span id="y"></span> PaleoVision Team — All rights reserved</div>
-      <div class="muted">
-        Contact us: <a href="mailto:paleovisionteam@gmail.com" style="color:var(--fern)">paleovisionteam@gmail.com</a> •
-        <a href="https://www.youtube.com/@PaleoVisionTeam" target="_blank" rel="noopener noreferrer"
-          style="color:var(--fern)">YouTube Channel</a>
+  <!-- Scope & Gap (Dark Stone) -->
+  <section id="scope" class="py-24 bg-stone-900 text-stone-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-white mb-2 tracking-wide">Research Scope & Gap</h2>
+        <div class="w-16 h-1 bg-amber-600 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <!-- Research Layout -->
+        <div class="bg-stone-800 p-8 rounded-xl border border-stone-700">
+          <div class="flex items-center mb-6">
+            <i data-lucide="microscope" class="w-8 h-8 text-amber-500 mr-4"></i>
+            <h3 class="text-xl font-bold text-white font-serif">Research Problem</h3>
+          </div>
+          <div class="prose prose-invert text-stone-400">
+            <p class="mb-4">Low engagement and retention with static VR exhibits, characterized by limited interactivity
+              and a lack of adaptive guidance.</p>
+            <h4 class="text-white font-bold mt-6 mb-2">Objectives</h4>
+            <ul class="list-disc pl-4 space-y-2 text-sm">
+              <li>Design context-aware VR guides.</li>
+              <li>Implement realistic animal behaviors (herding, predation).</li>
+              <li>Build interactive timelines.</li>
+              <li>Evaluate retention via user studies.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Lit Survey -->
+        <div class="bg-stone-800 p-8 rounded-xl border border-stone-700">
+          <div class="flex items-center mb-6">
+            <i data-lucide="book-open" class="w-8 h-8 text-amber-500 mr-4"></i>
+            <h3 class="text-xl font-bold text-white font-serif">Reference Literature</h3>
+          </div>
+          <ul class="space-y-4 text-xs text-stone-400">
+            <li class="pl-3 border-l-2 border-amber-900">[1] Radianti et al. (2020) - Systematic review of immersive VR
+              in education.</li>
+            <li class="pl-3 border-l-2 border-amber-900">[2] Jensen & Konradsen (2018) - Review of HMDs in training.
+            </li>
+            <li class="pl-3 border-l-2 border-amber-900">[3] Boer et al. (2022) - AI for adaptive learning in museums.
+            </li>
+            <li class="pl-3 border-l-2 border-amber-900">[4] Li et al. (2021) - VR and AI for educational applications.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources / Docs -->
+  <section id="resources" class="py-24 bg-stone-100 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Project Registry</h2>
+        <p class="text-stone-600">Archive of all submitted reports and presentations.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Project Proposals -->
+        <a href="documents/R25-056_TAF.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Topic Assessment Form</h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: June 25, 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-stone-100 text-[10px] font-bold text-stone-500 rounded uppercase">Group</span>
+          </div>
+        </a>
+
+        <a href="documents/IT21284502 - Prehistoric VR timeline.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Proposal - IT21284502</h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Aug 24, 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-stone-100 text-[10px] font-bold text-stone-500 rounded uppercase">Individual</span>
+          </div>
+        </a>
+
+        <a href="documents/Research Project Proposal Report- IT21803420.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Proposal - IT21803420</h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Aug 24, 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-stone-100 text-[10px] font-bold text-stone-500 rounded uppercase">Individual</span>
+          </div>
+        </a>
+
+        <a href="documents/IT21318870 Research_Proposal_Report (1).pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Proposal - IT21318970</h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Aug 24, 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-stone-100 text-[10px] font-bold text-stone-500 rounded uppercase">Individual</span>
+          </div>
+        </a>
+
+        <a href="documents/IT21231582 KodithuwakkuAK.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Proposal - IT21231582</h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Aug 24, 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-stone-100 text-[10px] font-bold text-stone-500 rounded uppercase">Individual</span>
+          </div>
+        </a>
+
+        <!-- Final Reports -->
+        <a href="documents/IT21284502 - Final Report.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-amber-100 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Final Report - IT21284502
+            </h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Oct 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-bold rounded uppercase">Final</span>
+          </div>
+        </a>
+
+        <a href="documents/IT21803420-R25-056-Final_Report.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-amber-100 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Final Report - IT21803420
+            </h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Oct 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-bold rounded uppercase">Final</span>
+          </div>
+        </a>
+
+        <a href="documents/Final Report-IT21318870 J S DISSANAYKE.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-amber-100 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Final Report - IT21318970
+            </h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Oct 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-bold rounded uppercase">Final</span>
+          </div>
+        </a>
+
+        <a href="documents/IT21231582 Kodithuwakku_AK .pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border border-amber-100 shadow-sm hover:shadow-md hover:border-amber-400 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-red-50 text-red-500 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-stone-900 group-hover:text-amber-700 transition-colors">Final Report - IT21231582
+            </h4>
+            <p class="text-xs text-stone-500 mt-1">Submitted: Oct 2025</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-bold rounded uppercase">Final</span>
+          </div>
+        </a>
+
+        <a href="documents/R25-056 Final Group Report.pdf" target="_blank"
+          class="bg-white p-5 rounded-lg border-2 border-amber-200 shadow-sm hover:shadow-lg hover:border-amber-500 transition-all flex items-start gap-4 group col-span-1 md:col-span-2">
+          <div class="p-3 bg-amber-100 text-amber-600 rounded font-bold text-xs">PDF</div>
+          <div>
+            <h4 class="font-bold text-lg text-stone-900 group-hover:text-amber-700 transition-colors">Official Final
+              Group Report</h4>
+            <p class="text-sm text-stone-500 mt-1">Comprehensive documentation of the PaleoVision project.</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-amber-500 text-white text-[10px] font-bold rounded uppercase">Main
+              Deliverable</span>
+          </div>
+        </a>
+
+        <!-- Presentations -->
+        <a href="documents/Final Presentation r25-056.pptx" target="_blank"
+          class="bg-white p-5 rounded-lg border-2 border-stone-200 shadow-sm hover:shadow-lg hover:border-amber-500 transition-all flex items-start gap-4 group">
+          <div class="p-3 bg-orange-100 text-orange-600 rounded font-bold text-xs">PPT</div>
+          <div>
+            <h4 class="font-bold text-lg text-stone-900 group-hover:text-amber-700 transition-colors">Final Presentation
+            </h4>
+            <p class="text-sm text-stone-500 mt-1">The defense slides.</p>
+            <span
+              class="inline-block mt-2 px-2 py-0.5 bg-stone-800 text-white text-[10px] font-bold rounded uppercase">Slides</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team (Jurassic Style) -->
+  <section id="team" class="py-24 bg-stone-900 hero-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2
+        class="section-title text-center mx-auto block w-max mb-16 !text-stone-100 before:bg-white after:bg-amber-500">
+        Expedition Team</h2>
+
+      <!-- Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Supervisor -->
+        <div
+          class="bg-stone-800 rounded-lg p-6 text-center border border-stone-700 hover:border-amber-500 transition-all lg:col-span-2 lg:col-start-2">
+          <h3 class="font-serif font-bold text-xl text-amber-500 mb-6 uppercase tracking-widest">Mission Command</h3>
+          <div class="flex justify-center gap-10 flex-wrap">
+            <div>
+              <img src="images/webp/is.webp"
+                class="w-24 h-24 rounded-full border-4 border-stone-600 mx-auto mb-3 object-cover" alt="Supervisor">
+              <div class="text-white font-bold">Mr. A.I. Gamage</div>
+              <div class="text-xs text-stone-400">Supervisor</div>
+            </div>
+            <div>
+              <img src="images/webp/ns.webp"
+                class="w-24 h-24 rounded-full border-4 border-stone-600 mx-auto mb-3 object-cover" alt="Co-Supervisor">
+              <div class="text-white font-bold">Mr. N. Nismi</div>
+              <div class="text-xs text-stone-400">Co-Supervisor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        <!-- Student 1 -->
+        <div
+          class="bg-stone-100 rounded-lg p-6 text-center border-b-4 border-amber-500 hover:transform hover:-translate-y-2 transition-transform shadow-lg">
+          <img src="images/webp/il.webp"
+            class="w-20 h-20 rounded-full border-2 border-stone-300 mx-auto mb-4 object-cover">
+          <h4 class="font-bold text-stone-900">M.M. Ilangamveera</h4>
+          <span class="block text-[10px] font-bold text-amber-600 uppercase mb-2">Group Leader</span>
+          <p class="text-xs text-stone-500 font-mono">IT21284502</p>
+        </div>
+        <!-- Student 2 -->
+        <div
+          class="bg-stone-100 rounded-lg p-6 text-center border-b-4 border-stone-400 hover:border-amber-500 hover:transform hover:-translate-y-2 transition-transform shadow-lg">
+          <img src="images/webp/ks.webp"
+            class="w-20 h-20 rounded-full border-2 border-stone-300 mx-auto mb-4 object-cover">
+          <h4 class="font-bold text-stone-900">Waynath S.P.K</h4>
+          <span class="block text-[10px] font-bold text-stone-500 uppercase mb-2">Specialist</span>
+          <p class="text-xs text-stone-500 font-mono">IT21803420</p>
+        </div>
+        <!-- Student 3 -->
+        <div
+          class="bg-stone-100 rounded-lg p-6 text-center border-b-4 border-stone-400 hover:border-amber-500 hover:transform hover:-translate-y-2 transition-transform shadow-lg">
+          <img src="images/webp/js.webp"
+            class="w-20 h-20 rounded-full border-2 border-stone-300 mx-auto mb-4 object-cover">
+          <h4 class="font-bold text-stone-900">Dissanayake J.S</h4>
+          <span class="block text-[10px] font-bold text-stone-500 uppercase mb-2">Specialist</span>
+          <p class="text-xs text-stone-500 font-mono">IT21318970</p>
+        </div>
+        <!-- Student 4 -->
+        <div
+          class="bg-stone-100 rounded-lg p-6 text-center border-b-4 border-stone-400 hover:border-amber-500 hover:transform hover:-translate-y-2 transition-transform shadow-lg">
+          <img src="images/webp/kw.webp"
+            class="w-20 h-20 rounded-full border-2 border-stone-300 mx-auto mb-4 object-cover">
+          <h4 class="font-bold text-stone-900">Kodithuwakku A.K</h4>
+          <span class="block text-[10px] font-bold text-stone-500 uppercase mb-2">Specialist</span>
+          <p class="text-xs text-stone-500 font-mono">IT21231582</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-stone-950 text-stone-500 py-12 border-t border-stone-900">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col md:flex-row justify-between items-center gap-6">
+      <div>
+        <span class="font-serif text-stone-300 text-lg font-bold tracking-widest">PALEOVISION</span>
+        <p class="text-xs mt-1">&copy; 2025 Team PaleoVision. Fossilized in Code.</p>
+      </div>
+      <div class="flex gap-6 text-sm">
+        <a href="https://github.com/KisuraWSP/research_website" target="_blank"
+          class="hover:text-amber-500 transition-colors">GitHub</a>
+        <a href="https://www.youtube.com/@PaleoVisionTeam" target="_blank"
+          class="hover:text-amber-500 transition-colors">YouTube</a>
+        <a href="mailto:paleovisionteam@gmail.com" class="hover:text-amber-500 transition-colors">Contact</a>
       </div>
     </div>
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    lucide.createIcons();
+
+    // Mobile Toggle
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    // Smooth active state
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('nav .hidden a');
+      let current = '';
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= (sectionTop - section.clientHeight / 3)) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(a => {
+        a.classList.remove('text-amber-500');
+        if (a.getAttribute('href').includes(current)) {
+          a.classList.add('text-amber-500');
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

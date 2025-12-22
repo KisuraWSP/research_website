@@ -1,0 +1,13 @@
+{
+  "name": "paleovision-website",
+  "version": "1.0.0",
+  "description": "PaleoVision Research Website",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
